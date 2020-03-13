@@ -7,9 +7,13 @@
         active: selectedNoteId ? note.id === selectedNoteId : i === 0
       }"
       (click)="select(note.id)"
+      class="d-flex justify-content-between"
       role="button"
     >
       {{ note.title }}
+      <span class="favorite" *ngIf="note.favorite">
+        <fa-icon [icon]="favoriteIcon"></fa-icon>
+      </span>
     </li>
   </ul>
 </div>

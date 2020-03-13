@@ -9,6 +9,10 @@
         background: var(--light-theme-accent-light);
         color: var(--light-theme-text);
       }
+
+      > .favorite {
+        color: var(--yellow);
+      }
     }
   }
 }
