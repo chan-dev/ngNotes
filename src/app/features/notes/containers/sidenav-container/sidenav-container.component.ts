@@ -5,6 +5,7 @@ import { faStar, faStickyNote } from '@fortawesome/free-regular-svg-icons';
 import { Note } from '../../models/note';
 import { getAllNotes, getSelectedNoteId } from '../../state';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
+import { MenuIcons } from '../../models/menu-icons';
 
 @Component({
   selector: 'app-sidenav-container',
@@ -12,7 +13,7 @@ import * as noteActions from '@app/features/notes/state/notes/notes.actions';
   styleUrls: ['./sidenav-container.component.scss'],
 })
 export class SidenavContainerComponent {
-  menuIcons = [
+  menuIcons: MenuIcons[] = [
     {
       menu: 'Notes',
       icon: faStickyNote,
