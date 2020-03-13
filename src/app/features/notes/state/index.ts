@@ -24,7 +24,7 @@ export const getSidenavState = createSelector(
   getNotesFeatureState,
   (state: NotesFeatureState) => state.sidenav
 );
-export const getSidenavIsOpen = createSelector(
+export const getSidenavIsVisible = createSelector(
   getSidenavState,
   (state: fromSidenav.SidenavState) => state.isVisible
 );

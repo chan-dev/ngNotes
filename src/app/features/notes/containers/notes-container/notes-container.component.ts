@@ -3,7 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
-import { getSidenavIsOpen, getSelectedNote } from '@app/features/notes/state';
+import {
+  getSidenavIsVisible,
+  getSelectedNote,
+} from '@app/features/notes/state';
 import { Note } from '../../models/note.model';
 import { map } from 'rxjs/operators';
 
@@ -19,7 +22,7 @@ export class NotesContainerComponent implements OnInit {
   // selectedNoteTitle$: Observable<string>;
 
   constructor(private store: Store<any>) {
-    this.isVisible$ = this.store.select(getSidenavIsOpen);
+    this.isVisible$ = this.store.select(getSidenavIsVisible);
     // this.selectedNoteTitle$ = this.store
     //   .select(getSelectedNote)
     //   .pipe(map(note => (note ? note.title : '')));
