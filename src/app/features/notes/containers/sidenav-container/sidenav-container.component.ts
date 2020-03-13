@@ -43,7 +43,7 @@ export class SidenavContainerComponent {
   selectedMenu$: Observable<SidenavMenus>;
 
   constructor(private store: Store<any>) {
-    this.notes$ = this.store.select(getAllNotes);
+    this.notes$ = this.store.select(getFilteredNotes);
     this.selectedNoteId$ = this.store.select(getSelectedNoteId);
     this.selectedMenu$ = this.store.select(getSidenavSelectedMenu);
   }
