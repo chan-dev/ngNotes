@@ -7,7 +7,7 @@
     ></app-sidenav-menus>
   </section>
   <section class="sidenav__content-section flex-grow-1">
-    <app-sidenav-search></app-sidenav-search>
+    <app-sidenav-search (filter)="setFilter($event)"></app-sidenav-search>
     <app-notes-list
       [notes]="notes$ | async"
       [selectedNoteId]="selectedNoteId$ | async"

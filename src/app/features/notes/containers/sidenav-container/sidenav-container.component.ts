@@ -59,6 +59,9 @@ export class SidenavContainerComponent {
     this.store.dispatch(noteActions.selectNote({ id: null }));
   }
 
+  setFilter(filter: string) {
+    this.store.dispatch(sidenavActions.setSearchFilter({ filter }));
+  }
 
   getSelectedAction(menu) {
     switch (menu) {

@@ -4,5 +4,6 @@
     class="form-control sidenav-search__input"
     placeholder="Search notes"
     aria-label="note search"
+    (input)="search($event.target.value)"
   />
 </form>

@@ -5,6 +5,7 @@ import * as sidenavActions from './sidenav.actions';
 const initialState: SidenavState = {
   isVisible: true,
   selectedMenu: SidenavMenus.Notes,
+  filter: '',
 };
 
 const featureReducer = createReducer(
@@ -25,6 +26,9 @@ const featureReducer = createReducer(
     ...state,
     selectedMenu: SidenavMenus.Trash,
   })),
+  on(sidenavActions.setSearchFilter, (state, { filter }) => ({
+    ...state,
+    filter,
   }))
 );
 

@@ -1,4 +1,9 @@
-import { createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
+
+export const toggleSidenav = createAction(
+  '[CurrentNoteHeaderComponent] Toggle Sidenav'
+);
+
 // TODO: replace with correct event source
 export const selectNotesMenu = createAction(
   '[SidenavContainerComponent] Select Notes Menu'
@@ -10,4 +15,7 @@ export const selectTrashMenu = createAction(
   '[SidenavContainerComponent] Select Trash Menu'
 );
 
-export const toggleSidenav = createAction('[Notes Page] Toggle Sidenav');
+export const setSearchFilter = createAction(
+  '[SidenavContainerComponent] Set Search Filter',
+  props<{ filter: string }>()
+);

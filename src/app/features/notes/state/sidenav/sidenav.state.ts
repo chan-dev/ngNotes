@@ -7,4 +7,5 @@ export enum SidenavMenus {
 export interface SidenavState {
   isVisible: boolean;
   selectedMenu: SidenavMenus;
+  filter: string;
 }

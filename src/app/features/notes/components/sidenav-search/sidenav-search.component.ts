@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-sidenav-search',
@@ -6,7 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidenav-search.component.scss'],
 })
 export class SidenavSearchComponent implements OnInit {
+  @Output() filter = new EventEmitter<string>();
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
+
+  search(filter) {
+    this.filter.emit(filter);
+  }
 }

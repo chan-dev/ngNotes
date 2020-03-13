@@ -32,6 +32,10 @@ export const getSidenavSelectedMenu = createSelector(
   getSidenavState,
   (state: fromSidenav.SidenavState) => state.selectedMenu
 );
+export const getSidenavSearchFilter = createSelector(
+  getSidenavState,
+  (state: fromSidenav.SidenavState) => state.filter
+);
 
 // notes selectors
 export const getNotesState = createSelector(
