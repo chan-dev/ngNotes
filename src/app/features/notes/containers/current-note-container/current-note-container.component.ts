@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Note } from '../../models/note.model';
+import { Note } from '../../models/note';
 import { getSelectedNote } from '../../state';
 
 @Component({

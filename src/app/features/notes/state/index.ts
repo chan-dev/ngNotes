@@ -5,7 +5,7 @@ import {
 } from '@ngrx/store';
 import * as fromSidenav from './sidenav';
 import * as fromNotes from './notes';
-import { Note } from '../models/note.model';
+import { Note } from '../models/note';
 
 export interface NotesFeatureState {
   sidenav: fromSidenav.SidenavState;
@@ -27,6 +27,10 @@ export const getSidenavState = createSelector(
 export const getSidenavIsVisible = createSelector(
   getSidenavState,
   (state: fromSidenav.SidenavState) => state.isVisible
+);
+export const getSidenavSelectedMenu = createSelector(
+  getSidenavState,
+  (state: fromSidenav.SidenavState) => state.selectedMenu
 );
 
 // notes selectors

@@ -1,4 +1,4 @@
-import { Note } from '../../models/note.model';
+import { Note } from '../../models/note';
 
 export interface NotesState {
   items: Note[];

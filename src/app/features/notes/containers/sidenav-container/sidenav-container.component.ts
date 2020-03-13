@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { faStar, faStickyNote } from '@fortawesome/free-regular-svg-icons';
-import { Note } from '../../models/note.model';
+import { Note } from '../../models/note';
 import { getAllNotes, getSelectedNoteId } from '../../state';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 
