@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --light-theme-primary: #fff;
+  --light-theme-secondary: #fafafa;
+  --light-theme-text: #333;
+  --light-theme-accent: #4f4f4f;
+  --light-theme-accent-light: #f0f0f0;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--light-theme-text);
+}
+
+ul {
+  list-style-type: none;
+}
