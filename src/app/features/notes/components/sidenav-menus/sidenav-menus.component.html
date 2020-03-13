@@ -3,12 +3,13 @@
     <li
       *ngFor="let icon of menus"
       [ngClass]="{ active: icon.menu === selectedMenu }"
-      [tooltip]="icon.menu"
       placement="right"
       role="button"
+      class="d-flex"
       (click)="select(icon.menu)"
     >
-      <fa-icon [icon]="icon.icon"></fa-icon>
+      <span class="icon"><fa-icon [icon]="icon.icon"></fa-icon></span>
+      {{ icon.menu }}
     </li>
   </ul>
 </div>

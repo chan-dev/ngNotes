@@ -1,6 +1,6 @@
 .sidenav {
   min-height: 100vh;
-  max-width: 20rem;
+  max-width: 25rem;
   border-right: 1px solid var(--light-theme-secondary);
 }
 
@@ -10,5 +10,5 @@
 
 .sidenav__content-section {
   background: var(--light-theme-secondary);
-  min-width: 12rem;
+  // min-width: 12rem;
 }
