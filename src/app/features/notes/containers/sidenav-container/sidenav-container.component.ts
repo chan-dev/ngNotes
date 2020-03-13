@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { faStar, faStickyNote } from '@fortawesome/free-regular-svg-icons';
+import {
+  faStar,
+  faStickyNote,
+  faTrashAlt,
+} from '@fortawesome/free-regular-svg-icons';
 import { Note } from '../../models/note';
 import { getAllNotes, getSelectedNoteId } from '../../state';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
@@ -15,12 +19,16 @@ import { MenuIcons } from '../../models/menu-icons';
 export class SidenavContainerComponent {
   menuIcons: MenuIcons[] = [
     {
-      menu: 'Notes',
+      menu: SidenavMenus.Notes,
       icon: faStickyNote,
     },
     {
-      menu: 'Favorites',
+      menu: SidenavMenus.Favorites,
       icon: faStar,
+    },
+    {
+      menu: SidenavMenus.Trash,
+      icon: faTrashAlt,
     },
   ];
 
