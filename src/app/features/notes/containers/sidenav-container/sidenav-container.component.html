@@ -12,9 +12,7 @@
     </ul>
   </section>
   <section class="sidenav__content flex-grow-1">
-    <div class="sidenav__search-form">
-      <app-sidenav-search></app-sidenav-search>
-    </div>
+    <app-sidenav-search></app-sidenav-search>
     <app-notes-list
       [notes]="notes$ | async"
       [selectedNoteId]="selectedNoteId$ | async"
