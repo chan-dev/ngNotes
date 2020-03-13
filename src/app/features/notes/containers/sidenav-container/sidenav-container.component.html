@@ -1,17 +1,8 @@
 <div class="sidenav d-flex">
-  <section class="sidenav__menus flex-grow-0">
-    <ul>
-      <li
-        *ngFor="let icon of menuIcons"
-        [ngClass]="{ active: icon.menu === 'Notes' }"
-        [tooltip]="icon.menu"
-        placement="right"
-      >
-        <fa-icon [icon]="icon.icon"></fa-icon>
-      </li>
-    </ul>
+  <section class="sidenav__menu-section flex-grow-0">
+    <app-sidenav-menus [menus]="menuIcons"></app-sidenav-menus>
   </section>
-  <section class="sidenav__content flex-grow-1">
+  <section class="sidenav__content-section flex-grow-1">
     <app-sidenav-search></app-sidenav-search>
     <app-notes-list
       [notes]="notes$ | async"

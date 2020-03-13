@@ -4,24 +4,11 @@
   border-right: 1px solid var(--light-theme-secondary);
 }
 
-.sidenav__menus {
+.sidenav__menu-section {
   background: var(--light-theme-accent);
-  ul {
-    li {
-      font-size: 1.6rem;
-      color: var(--light-theme-primary);
-      padding: 0.5rem;
-      cursor: pointer;
-      text-align: center;
-
-      &.active {
-        color: var(--blue);
-      }
-    }
-  }
 }
 
-.sidenav__content {
+.sidenav__content-section {
   background: var(--light-theme-secondary);
   min-width: 12rem;
 }

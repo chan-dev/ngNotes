@@ -1,0 +1,12 @@
+<div class="sidenav-menus">
+  <ul>
+    <li
+      *ngFor="let icon of menus"
+      [ngClass]="{ active: icon.menu === 'Notes' }"
+      [tooltip]="icon.menu"
+      placement="right"
+    >
+      <fa-icon [icon]="icon.icon"></fa-icon>
+    </li>
+  </ul>
+</div>

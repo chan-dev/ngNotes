@@ -12,6 +12,7 @@ import { SidenavSearchComponent } from './components/sidenav-search/sidenav-sear
 import { CurrentNoteHeaderComponent } from './components/current-note-header/current-note-header.component';
 import { NotesListComponent } from './components/notes-list/notes-list.component';
 import { CurrentNoteContainerComponent } from './containers/current-note-container/current-note-container.component';
+import { SidenavMenusComponent } from './components/sidenav-menus/sidenav-menus.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CurrentNoteContainerComponent } from './containers/current-note-contain
     CurrentNoteHeaderComponent,
     NotesListComponent,
     CurrentNoteContainerComponent,
+    SidenavMenusComponent,
   ],
   imports: [
     SharedModule,

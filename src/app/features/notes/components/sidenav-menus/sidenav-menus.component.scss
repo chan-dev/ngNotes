@@ -1,0 +1,15 @@
+.sidenav-menus {
+  ul {
+    li {
+      font-size: 1.6rem;
+      color: var(--light-theme-primary);
+      padding: 0.5rem;
+      cursor: pointer;
+      text-align: center;
+
+      &.active {
+        color: var(--blue);
+      }
+    }
+  }
+}
