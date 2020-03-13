@@ -1,0 +1,27 @@
+.sidenav {
+  min-height: 100vh;
+  max-width: 20rem;
+  border-right: 1px solid var(--light-theme-secondary);
+}
+
+.sidenav__menus {
+  background: var(--light-theme-accent);
+  ul {
+    li {
+      font-size: 1.6rem;
+      color: var(--light-theme-primary);
+      padding: 0.5rem;
+      cursor: pointer;
+      text-align: center;
+
+      &.active {
+        color: var(--blue);
+      }
+    }
+  }
+}
+
+.sidenav__content {
+  background: var(--light-theme-secondary);
+  min-width: 12rem;
+}

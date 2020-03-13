@@ -1,0 +1,14 @@
+.notes-list {
+  ul {
+    li {
+      padding: 0.6rem 1rem;
+      font-weight: bold;
+      cursor: pointer;
+
+      &.active {
+        background: var(--light-theme-accent-light);
+        color: var(--light-theme-text);
+      }
+    }
+  }
+}

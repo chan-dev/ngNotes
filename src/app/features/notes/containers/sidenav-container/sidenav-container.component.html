@@ -1,0 +1,24 @@
+<div class="sidenav d-flex">
+  <section class="sidenav__menus flex-grow-0">
+    <ul>
+      <li
+        *ngFor="let icon of menuIcons"
+        [ngClass]="{ active: icon.menu === 'Notes' }"
+        [tooltip]="icon.menu"
+        placement="right"
+      >
+        <fa-icon [icon]="icon.icon"></fa-icon>
+      </li>
+    </ul>
+  </section>
+  <section class="sidenav__content flex-grow-1">
+    <div class="sidenav__search-form">
+      <app-sidenav-search></app-sidenav-search>
+    </div>
+    <app-notes-list
+      [notes]="notes$ | async"
+      [selectedNoteId]="selectedNoteId$ | async"
+      (selectNote)="setSelectedNote($event)"
+    ></app-notes-list>
+  </section>
+</div>

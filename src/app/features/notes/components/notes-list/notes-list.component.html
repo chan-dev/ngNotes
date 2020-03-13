@@ -1,0 +1,15 @@
+<div class="notes-list">
+  <ul>
+    <!-- Set default active class to the first item, if there's not selected note yet -->
+    <li
+      *ngFor="let note of notes; let i = index"
+      [ngClass]="{
+        active: selectedNoteId ? note.id === selectedNoteId : i === 0
+      }"
+      (click)="select(note.id)"
+      role="button"
+    >
+      {{ note.title }}
+    </li>
+  </ul>
+</div>
