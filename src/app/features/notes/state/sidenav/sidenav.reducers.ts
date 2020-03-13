@@ -1,9 +1,10 @@
-import { SidenavState } from './sidenav.state';
+import { SidenavState, SidenavMenus } from './sidenav.state';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as sidenavActions from './sidenav.actions';
 
 const initialState: SidenavState = {
   isVisible: true,
+  selectedMenu: SidenavMenus.Notes,
 };
 
 const featureReducer = createReducer(
@@ -11,6 +12,19 @@ const featureReducer = createReducer(
   on(sidenavActions.toggleSidenav, state => ({
     ...state,
     isVisible: !state.isVisible,
+  })),
+  on(sidenavActions.selectNotesMenu, state => ({
+    ...state,
+    selectedMenu: SidenavMenus.Notes,
+  })),
+  on(sidenavActions.selectFavoritesMenu, state => ({
+    ...state,
+    selectedMenu: SidenavMenus.Favorites,
+  })),
+  on(sidenavActions.selectTrashMenu, state => ({
+    ...state,
+    selectedMenu: SidenavMenus.Trash,
+  })),
   }))
 );
 

@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MenuIcons } from '../../models/menu-icons';
+import { SidenavMenus } from '../../state/sidenav';
 
 @Component({
   selector: 'app-sidenav-menus',
@@ -8,7 +9,14 @@ import { MenuIcons } from '../../models/menu-icons';
 })
 export class SidenavMenusComponent implements OnInit {
   @Input() menus: MenuIcons[];
+  @Input() selectedMenu: SidenavMenus;
+  @Output() selectMenu = new EventEmitter<string>();
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
+
+  select(menu: string) {
+    this.selectMenu.emit(menu);
+  }
 }

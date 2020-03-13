@@ -1,6 +1,10 @@
 <div class="sidenav d-flex">
   <section class="sidenav__menu-section flex-grow-0">
-    <app-sidenav-menus [menus]="menuIcons"></app-sidenav-menus>
+    <app-sidenav-menus
+      [menus]="menuIcons"
+      [selectedMenu]="selectedMenu$ | async"
+      (selectMenu)="setSelectedMenu($event)"
+    ></app-sidenav-menus>
   </section>
   <section class="sidenav__content-section flex-grow-1">
     <app-sidenav-search></app-sidenav-search>

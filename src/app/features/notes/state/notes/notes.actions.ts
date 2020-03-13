@@ -16,5 +16,5 @@ export const fetchNotesError = createAction(
 // TODO: replace with correct component
 export const selectNote = createAction(
   '[SidenavContainerComponent] Selected Note',
-  props<{ id: string }>()
+  props<{ id: string | null }>()
 );
