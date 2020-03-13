@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ngnotes-a4ac3": {
+      "hosting": {
+        "ngNotes": [
+          "ngnotes-a4ac3"
+        ]
+      }
+    }
+  }
+}
