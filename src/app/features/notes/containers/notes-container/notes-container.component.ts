@@ -19,13 +19,9 @@ export class NotesContainerComponent implements OnInit {
   faCoffee = faCoffee;
   isVisible$: Observable<boolean>;
   notes$: Observable<Note[]>;
-  // selectedNoteTitle$: Observable<string>;
 
   constructor(private store: Store<any>) {
     this.isVisible$ = this.store.select(getSidenavIsVisible);
-    // this.selectedNoteTitle$ = this.store
-    //   .select(getSelectedNote)
-    //   .pipe(map(note => (note ? note.title : '')));
   }
 
   ngOnInit() {}
