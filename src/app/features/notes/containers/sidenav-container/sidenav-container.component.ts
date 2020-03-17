@@ -42,6 +42,11 @@ export class SidenavContainerComponent {
   selectedNoteId$: Observable<string | null>;
   selectedMenu$: Observable<SidenavMenus>;
 
+  // TODO: adjust
+  scrollbarOptions = {
+    scrollbarMaxSize: 250,
+  };
+
   constructor(private store: Store<any>) {
     this.notes$ = this.store.select(getFilteredNotes);
     this.selectedNoteId$ = this.store.select(getSelectedNoteId);

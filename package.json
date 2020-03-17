@@ -32,11 +32,12 @@
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
     "bootstrap": "^4.4.1",
+    "firebase": ">= 5.5.7 <8",
     "ngx-bootstrap": "^5.5.0",
     "rxjs": "~6.5.4",
+    "simplebar-angular": "^2.1.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2",
-    "firebase": ">= 5.5.7 <8"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.5",
