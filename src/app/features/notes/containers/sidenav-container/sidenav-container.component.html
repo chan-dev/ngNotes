@@ -3,6 +3,7 @@
     <app-sidenav-menus
       [menus]="menuIcons"
       [selectedMenu]="selectedMenu$ | async"
+      [expandIcons]="expandIcons$ | async"
       (selectMenu)="setSelectedMenu($event)"
     ></app-sidenav-menus>
   </section>

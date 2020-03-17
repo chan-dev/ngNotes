@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { environment } from '@environment/environment';
 import { reducers } from './state';
@@ -21,6 +22,7 @@ import { CustomSerializer } from './state/router';
     BrowserAnimationsModule,
     RouterModule,
     FontAwesomeModule,
+    LayoutModule,
 
     AngularFireModule.initializeApp({
       apiKey: environment.apiKey,

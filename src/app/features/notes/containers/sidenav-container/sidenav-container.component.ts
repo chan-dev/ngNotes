@@ -7,16 +7,19 @@ import {
   faTrashAlt,
   faShareSquare,
 } from '@fortawesome/free-regular-svg-icons';
+
 import { Note } from '../../models/note';
 import {
   getSelectedNoteId,
   getSidenavSelectedMenu,
   getFilteredNotes,
+  getSidenavExpandIcons,
 } from '../../state';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actions';
 import { MenuIcons } from '../../models/menu-icons';
 import { SidenavMenus } from '../../state/sidenav';
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav-container',
@@ -46,6 +49,7 @@ export class SidenavContainerComponent {
   notes$: Observable<Note[]>;
   selectedNoteId$: Observable<string | null>;
   selectedMenu$: Observable<SidenavMenus>;
+  expandIcons$: Observable<boolean>;
 
   // TODO: adjust
   scrollbarOptions = {
@@ -56,6 +60,7 @@ export class SidenavContainerComponent {
     this.notes$ = this.store.select(getFilteredNotes);
     this.selectedNoteId$ = this.store.select(getSelectedNoteId);
     this.selectedMenu$ = this.store.select(getSidenavSelectedMenu);
+    this.expandIcons$ = this.store.select(getSidenavExpandIcons).pipe(share());
   }
 
   setSelectedNote(id: string) {

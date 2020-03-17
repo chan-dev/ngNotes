@@ -4,6 +4,12 @@ export const toggleSidenav = createAction(
   '[CurrentNoteHeaderComponent] Toggle Sidenav'
 );
 
+// action that reacts on media query via angular cdk
+export const setSidenav = createAction(
+  '[Angular Cdk Api] Set Sidenav',
+  props<{ isMobile: boolean }>()
+);
+
 // TODO: replace with correct event source
 export const selectNotesMenu = createAction(
   '[SidenavContainerComponent] Select Notes Menu'

@@ -6,6 +6,7 @@ import { NotesRoutingModule } from './notes-routing.module';
 
 import { NotesContainerComponent } from './containers/notes-container/notes-container.component';
 import { NotesEffects } from './state/notes';
+import { SidenavEffects } from './state/sidenav/sidenav.effects';
 import { reducers } from './state';
 import { SidenavContainerComponent } from './containers/sidenav-container/sidenav-container.component';
 import { SidenavSearchComponent } from './components/sidenav-search/sidenav-search.component';
@@ -28,7 +29,7 @@ import { SidenavMenusComponent } from './components/sidenav-menus/sidenav-menus.
     SharedModule,
     NotesRoutingModule,
     StoreModule.forFeature('notes', reducers),
-    EffectsModule.forFeature([NotesEffects]),
+    EffectsModule.forFeature([NotesEffects, SidenavEffects]),
   ],
 })
 export class NotesModule {}

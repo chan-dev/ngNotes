@@ -10,6 +10,7 @@ import { SidenavMenus } from '../../state/sidenav';
 export class SidenavMenusComponent implements OnInit {
   @Input() menus: MenuIcons[];
   @Input() selectedMenu: SidenavMenus;
+  @Input() expandIcons: boolean;
   @Output() selectMenu = new EventEmitter<string>();
 
   constructor() {}

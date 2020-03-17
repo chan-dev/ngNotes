@@ -6,6 +6,7 @@ const initialState: SidenavState = {
   isVisible: true,
   selectedMenu: SidenavMenus.Notes,
   filter: '',
+  expandIcons: false,
 };
 
 const featureReducer = createReducer(
@@ -13,6 +14,11 @@ const featureReducer = createReducer(
   on(sidenavActions.toggleSidenav, state => ({
     ...state,
     isVisible: !state.isVisible,
+  })),
+  on(sidenavActions.setSidenav, (state, { isMobile }) => ({
+    ...state,
+    expandIcons: !isMobile,
+    isVisible: !isMobile,
   })),
   on(sidenavActions.selectNotesMenu, state => ({
     ...state,

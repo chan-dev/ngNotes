@@ -29,6 +29,10 @@ export const getSidenavIsVisible = createSelector(
   getSidenavState,
   (state: fromSidenav.SidenavState) => state.isVisible
 );
+export const getSidenavExpandIcons = createSelector(
+  getSidenavState,
+  (state: fromSidenav.SidenavState) => state.expandIcons
+);
 export const getSidenavSelectedMenu = createSelector(
   getSidenavState,
   (state: fromSidenav.SidenavState) => state.selectedMenu

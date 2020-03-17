@@ -1,15 +1,30 @@
 <div class="sidenav-menus">
   <ul>
-    <li
-      *ngFor="let icon of menus"
-      [ngClass]="{ active: icon.menu === selectedMenu }"
-      placement="right"
-      role="button"
-      class="d-flex"
-      (click)="select(icon.menu)"
-    >
-      <span class="icon"><fa-icon [icon]="icon.icon"></fa-icon></span>
-      {{ icon.menu }}
-    </li>
+    <ng-container *ngIf="expandIcons">
+      <li
+        *ngFor="let icon of menus"
+        [ngClass]="{ active: icon.menu === selectedMenu }"
+        placement="right"
+        role="button"
+        class="d-flex sidenav-menu sidenav-menu--expanded"
+        (click)="select(icon.menu)"
+      >
+        <span class="icon"><fa-icon [icon]="icon.icon"></fa-icon></span>
+        {{ icon.menu }}
+      </li>
+    </ng-container>
+    <ng-container *ngIf="!expandIcons">
+      <li
+        *ngFor="let icon of menus"
+        [ngClass]="{ active: icon.menu === selectedMenu }"
+        [tooltip]="icon.menu"
+        placement="right"
+        role="button"
+        class="d-flex sidenav-menu"
+        (click)="select(icon.menu)"
+      >
+        <span class="icon"><fa-icon [icon]="icon.icon"></fa-icon></span>
+      </li>
+    </ng-container>
   </ul>
 </div>

@@ -9,4 +9,5 @@ export interface SidenavState {
   isVisible: boolean;
   selectedMenu: SidenavMenus;
   filter: string;
+  expandIcons: boolean;
 }
