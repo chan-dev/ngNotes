@@ -1,5 +1,9 @@
 <header class="d-flex align-items-center header">
-  <button type="button" class="btn shadow-none" (click)="toggleSidenav()">
+  <button
+    type="button"
+    class="btn shadow-none header__toggle-menu"
+    (click)="toggleSidenav()"
+  >
     <fa-icon [icon]="logo"></fa-icon>
   </button>
   <h2>{{ title }}</h2>
