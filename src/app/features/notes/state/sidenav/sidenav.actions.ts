@@ -14,6 +14,9 @@ export const selectFavoritesMenu = createAction(
 export const selectTrashMenu = createAction(
   '[SidenavContainerComponent] Select Trash Menu'
 );
+export const selectSharedMenu = createAction(
+  '[SidenavContainerComponent] Select Shared Menu'
+);
 
 export const setSearchFilter = createAction(
   '[SidenavContainerComponent] Set Search Filter',

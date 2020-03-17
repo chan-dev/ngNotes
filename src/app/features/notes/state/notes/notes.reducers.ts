@@ -4,6 +4,7 @@ import * as notesActions from './notes.actions';
 
 const initialState: NotesState = {
   items: [],
+  sharedItems: [],
   error: null,
   loading: false,
   selectedNoteId: null,
@@ -16,9 +17,10 @@ const featureReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(notesActions.fetchNotesSuccess, (state, { items }) => ({
+  on(notesActions.fetchNotesSuccess, (state, { items, sharedItems }) => ({
     ...state,
     items,
+    sharedItems,
     loading: false,
     error: null,
   })),

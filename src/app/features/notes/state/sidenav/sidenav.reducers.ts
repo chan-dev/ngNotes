@@ -26,6 +26,10 @@ const featureReducer = createReducer(
     ...state,
     selectedMenu: SidenavMenus.Trash,
   })),
+  on(sidenavActions.selectSharedMenu, state => ({
+    ...state,
+    selectedMenu: SidenavMenus.Shared,
+  })),
   on(sidenavActions.setSearchFilter, (state, { filter }) => ({
     ...state,
     filter,

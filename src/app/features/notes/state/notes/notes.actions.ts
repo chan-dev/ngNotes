@@ -5,7 +5,7 @@ import { Note } from '../../models/note';
 export const fetchNotes = createAction('[Route Navigation] Fetch Notes');
 export const fetchNotesSuccess = createAction(
   '[Notes Api] Fetch Success',
-  props<{ items: Note[] }>()
+  props<{ items: Note[]; sharedItems: Note[] }>()
 );
 export const fetchNotesError = createAction(
   '[Notes Api] Fetch Error',

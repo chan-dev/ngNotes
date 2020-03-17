@@ -49,26 +49,39 @@ export const getAllNotes = createSelector(
   (state: fromNotes.NotesState) => state.items
 );
 
+export const getSharedNotes = createSelector(
+  getNotesState,
+  (state: fromNotes.NotesState) => state.sharedItems
+);
+
 export const getFilteredNotes = createSelector(
   getAllNotes,
+  getSharedNotes,
   getSidenavSelectedMenu,
   getSidenavSearchFilter,
-  (notes: Note[], selectedMenu: SidenavMenus, filter: string) => {
-    return notes
-      .filter(note => {
-        if (selectedMenu === SidenavMenus.Favorites) {
-          return note.favorite && !note.deleted;
-        }
-        if (selectedMenu === SidenavMenus.Trash) {
-          return note.deleted;
-        }
+  (
+    notes: Note[],
+    sharedNotes: Note[],
+    selectedMenu: SidenavMenus,
+    filter: string
+  ) => {
+    return selectedMenu === SidenavMenus.Shared
+      ? sharedNotes
+      : notes
+          .filter(note => {
+            if (selectedMenu === SidenavMenus.Favorites) {
+              return note.favorite && !note.deleted;
+            }
+            if (selectedMenu === SidenavMenus.Trash) {
+              return note.deleted;
+            }
 
-        return !note.deleted;
-      })
-      .filter(note => {
-        filter = filter.toLowerCase();
-        return note.title.toLowerCase().startsWith(filter);
-      });
+            return !note.deleted;
+          })
+          .filter(note => {
+            filter = filter.toLowerCase();
+            return note.title.toLowerCase().startsWith(filter);
+          });
   }
 );
 
@@ -97,9 +110,21 @@ export const getSelectedNoteId = createSelector(
 
 export const getSelectedNote = createSelector(
   getFilteredNotes,
+  getSharedNotes,
   getSelectedNoteId,
+  getSidenavSelectedMenu,
   // if there's no id, then set the first item as the default
-  (notes: Note[], id: string | null) => {
-    return id ? notes.find(note => note.id === id) : notes[0];
+  (
+    notes: Note[],
+    sharedNotes: Note[],
+    id: string | null,
+    selectedMenu: SidenavMenus
+  ) => {
+    if (id) {
+      return selectedMenu === SidenavMenus.Shared
+        ? sharedNotes.find(note => note.id === id)
+        : notes.find(note => note.id === id);
+    }
+    return selectedMenu === SidenavMenus.Shared ? sharedNotes[0] : notes[0];
   }
 );

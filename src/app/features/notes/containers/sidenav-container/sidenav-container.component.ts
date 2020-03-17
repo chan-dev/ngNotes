@@ -5,6 +5,7 @@ import {
   faStar,
   faStickyNote,
   faTrashAlt,
+  faShareSquare,
 } from '@fortawesome/free-regular-svg-icons';
 import { Note } from '../../models/note';
 import {
@@ -31,6 +32,10 @@ export class SidenavContainerComponent {
     {
       menu: SidenavMenus.Favorites,
       icon: faStar,
+    },
+    {
+      menu: SidenavMenus.Shared,
+      icon: faShareSquare,
     },
     {
       menu: SidenavMenus.Trash,
@@ -78,8 +83,12 @@ export class SidenavContainerComponent {
         return sidenavActions.selectTrashMenu;
       }
 
-      default: {
+      case SidenavMenus.Notes: {
         return sidenavActions.selectNotesMenu;
+      }
+
+      default: {
+        return sidenavActions.selectSharedMenu;
       }
     }
   }
