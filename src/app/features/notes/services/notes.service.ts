@@ -8,17 +8,14 @@ import { Observable, from } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class NotesService {
   private collectionName = '/notes';
+  private userId = 'rxBjk2snBo67SYtlQE1Z';
 
   constructor(private db: AngularFirestore) {}
 
   getNotes(): Observable<Note[]> {
-    // TODO: replace with logged user's id
-    const userId = 'Vs7QmX0Wds9op2zzxMYn';
-    // const userId = 'rxBjk2snBo67SYtlQE1Z';
-
     return this.db
       .collection(this.collectionName, ref =>
-        ref.where('authorId', '==', userId)
+        ref.where('authorId', '==', this.userId)
       )
       .snapshotChanges()
       .pipe(
@@ -31,16 +28,17 @@ export class NotesService {
         )
       );
   }
+
   getSharedNotes(): Observable<Note[]> {
     const collection = '/shared_notes';
     // TODO: replace with logged user's id
-    const userId = 'Vs7QmX0Wds9op2zzxMYn';
+    // const userId = 'Vs7QmX0Wds9op2zzxMYn';
     return this.db
-      .doc(`shared_notes/${userId}`)
+      .doc(`shared_notes/${this.userId}`)
       .valueChanges()
       .pipe(
         map((sharedNotes: { notes: { [id: string]: boolean } }) => {
-          return Object.keys(sharedNotes.notes);
+          return sharedNotes ? Object.keys(sharedNotes.notes) : [];
         }),
         mergeMap(noteIds =>
           // create observable from noteIds
