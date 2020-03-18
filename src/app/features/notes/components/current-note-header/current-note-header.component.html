@@ -4,7 +4,12 @@
     class="btn shadow-none header__toggle-menu"
     (click)="toggleSidenav()"
   >
-    <fa-icon [icon]="logo"></fa-icon>
+    <ng-container *ngIf="isVisible$ | async as visible; else sideNavHidden">
+      <fa-icon [icon]="logoArrowLeft"></fa-icon>
+    </ng-container>
+    <ng-template #sideNavHidden>
+      <fa-icon [icon]="logoArrowRight"></fa-icon>
+    </ng-template>
   </button>
-  <h2>{{ title }}</h2>
+  <span class="header__text">Menu</span>
 </header>

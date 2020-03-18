@@ -1,7 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+} from '@fortawesome/free-solid-svg-icons';
 import * as fromSidenav from '@app/features/notes/state/sidenav/sidenav.actions';
+import { Observable } from 'rxjs';
+import { getSidenavIsVisible } from '../../state';
 
 @Component({
   selector: 'app-current-note-header',
@@ -9,10 +14,13 @@ import * as fromSidenav from '@app/features/notes/state/sidenav/sidenav.actions'
   styleUrls: ['./current-note-header.component.scss'],
 })
 export class CurrentNoteHeaderComponent implements OnInit {
-  @Input() title: string;
-  logo = faBars;
+  isVisible$: Observable<boolean>;
+  logoArrowLeft = faAngleDoubleLeft;
+  logoArrowRight = faAngleDoubleRight;
 
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store<any>) {
+    this.isVisible$ = this.store.select(getSidenavIsVisible);
+  }
 
   ngOnInit() {}
 
