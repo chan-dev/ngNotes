@@ -14,6 +14,14 @@ import { CurrentNoteHeaderComponent } from './components/current-note-header/cur
 import { NotesListComponent } from './components/notes-list/notes-list.component';
 import { CurrentNoteContainerComponent } from './containers/current-note-container/current-note-container.component';
 import { SidenavMenusComponent } from './components/sidenav-menus/sidenav-menus.component';
+import { createLocalStorageSyncReducer } from '@shared/helpers/localStorageSync';
+
+const metaReducers = [
+  createLocalStorageSyncReducer({
+    keys: [{ notes: ['items', 'sharedItems'] }],
+    rehydrate: true,
+  }),
+];
 
 @NgModule({
   declarations: [
@@ -28,7 +36,7 @@ import { SidenavMenusComponent } from './components/sidenav-menus/sidenav-menus.
   imports: [
     SharedModule,
     NotesRoutingModule,
-    StoreModule.forFeature('notes', reducers),
+    StoreModule.forFeature('notes', reducers, { metaReducers }),
     EffectsModule.forFeature([NotesEffects, SidenavEffects]),
   ],
 })
