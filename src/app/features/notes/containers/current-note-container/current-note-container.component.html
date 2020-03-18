@@ -1,8 +1,9 @@
-<ng-container *ngIf="selectedNote$ | async as note">
+<ng-container>
   <app-current-note-header></app-current-note-header>
-
-  <!-- TODO: move to component -->
-  <div class="d-flex" style="padding: 2.5rem">
-    {{ note.content }}
-  </div>
+  <ng-container *ngIf="selectedNote$ | async as note">
+    <!-- TODO: move to component -->
+    <div class="d-flex" style="padding: 2.5rem">
+      {{ note.content }}
+    </div>
+  </ng-container>
 </ng-container>
