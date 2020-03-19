@@ -36,6 +36,8 @@
     "firebase": ">= 5.5.7 <8",
     "ngrx-store-localstorage": "^8.0.0",
     "ngx-bootstrap": "^5.5.0",
+    "primeicons": "^2.0.0",
+    "primeng": "^9.0.0",
     "rxjs": "~6.5.4",
     "simplebar-angular": "^2.1.0",
     "tslib": "^1.10.0",
