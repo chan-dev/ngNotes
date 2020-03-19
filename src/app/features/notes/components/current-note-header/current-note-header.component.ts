@@ -16,8 +16,8 @@ import { getSidenavIsVisible } from '../../state';
 })
 export class CurrentNoteHeaderComponent implements OnInit {
   isVisible$: Observable<boolean>;
-  logoArrowLeft = faAngleDoubleLeft;
-  logoArrowRight = faAngleDoubleRight;
+  iconArrowLeft = faAngleDoubleLeft;
+  iconArrowRight = faAngleDoubleRight;
   iconPlus = faPlus;
 
   constructor(private store: Store<any>) {

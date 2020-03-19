@@ -5,10 +5,10 @@
     (click)="toggleSidenav()"
   >
     <ng-container *ngIf="isVisible$ | async as visible; else sideNavHidden">
-      <fa-icon [icon]="logoArrowLeft"></fa-icon>
+      <fa-icon [icon]="iconArrowLeft"></fa-icon>
     </ng-container>
     <ng-template #sideNavHidden>
-      <fa-icon [icon]="logoArrowRight"></fa-icon>
+      <fa-icon [icon]="iconArrowRight"></fa-icon>
     </ng-template>
   </button>
   <span class="header__text">Menu</span>
