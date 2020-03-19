@@ -34,6 +34,7 @@
     "@ngrx/store-devtools": "^8.6.0",
     "bootstrap": "^4.4.1",
     "firebase": ">= 5.5.7 <8",
+    "lodash-es": "^4.17.15",
     "ngrx-store-localstorage": "^8.0.0",
     "ngx-bootstrap": "^5.5.0",
     "primeicons": "^2.0.0",
