@@ -5,6 +5,7 @@ import * as notesActions from './notes.actions';
 const initialState: NotesState = {
   items: [],
   sharedItems: [],
+  tags: [],
   error: null,
   loading: false,
   selectedNoteId: null,
@@ -28,6 +29,38 @@ const featureReducer = createReducer(
     ...state,
     error,
     loading: false,
+  })),
+  on(notesActions.createNote, state => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(notesActions.createNoteSuccess, (state, { note }) => ({
+    ...state,
+    items: [...state.items, note],
+    loading: false,
+    error: null,
+  })),
+  on(notesActions.createNoteError, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(notesActions.updateNote, state => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(notesActions.updateNoteSuccess, (state, { note }) => ({
+    ...state,
+    items: state.items.map(item => (item.id === note.id ? note : item)),
+    loading: false,
+    error: null,
+  })),
+  on(notesActions.updateNoteError, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   })),
   on(notesActions.selectNote, (state, { id }) => ({
     ...state,
