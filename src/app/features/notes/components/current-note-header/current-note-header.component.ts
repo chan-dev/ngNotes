@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import * as fromSidenav from '@app/features/notes/state/sidenav/sidenav.actions';
 import { Observable } from 'rxjs';
@@ -17,6 +18,7 @@ export class CurrentNoteHeaderComponent implements OnInit {
   isVisible$: Observable<boolean>;
   logoArrowLeft = faAngleDoubleLeft;
   logoArrowRight = faAngleDoubleRight;
+  iconPlus = faPlus;
 
   constructor(private store: Store<any>) {
     this.isVisible$ = this.store.select(getSidenavIsVisible);

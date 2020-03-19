@@ -1,3 +1,7 @@
+.header {
+  padding: 0.5rem;
+}
+
 .header__toggle-menu {
   align-self: start;
   padding: 0.2rem 0.4rem;
@@ -13,4 +17,8 @@
 .header__text {
   text-transform: uppercase;
   font-weight: bold;
+}
+
+.header__add-note-btn {
+  margin-left: auto;
 }
