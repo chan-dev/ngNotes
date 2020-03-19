@@ -37,6 +37,18 @@ export const updateNoteError = createAction(
   '[Test Component] Update Note Error',
   props<{ error: string }>()
 );
+export const softDeleteNote = createAction(
+  '[Test Component] Soft Delete Note',
+  props<{ id: string }>()
+);
+export const softDeleteNoteSuccess = createAction(
+  '[Test Component] Soft Delete Note Success',
+  props<{ id: string }>()
+);
+export const softDeleteNoteError = createAction(
+  '[Test Component] Soft Delete Note Error',
+  props<{ error: string }>()
+);
 // actions for selectedNoteId slice
 // TODO: replace with correct component
 // move to sidenav actions

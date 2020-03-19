@@ -81,4 +81,21 @@ export class NotesEffects {
       })
     )
   );
+
+  softDeleteNote$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.softDeleteNote),
+      exhaustMap(action => {
+        const { id } = action;
+
+        const deleteNoteId$ = defer(() =>
+          from(this.notesService.softDeleteNote(id))
+        );
+        return deleteNoteId$.pipe(
+          map(() => notesActions.softDeleteNoteSuccess({ id })),
+          catchError(error => of(notesActions.softDeleteNoteError({ error })))
+        );
+      })
+    )
+  );
 }

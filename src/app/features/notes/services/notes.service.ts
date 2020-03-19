@@ -168,4 +168,11 @@ export class NotesService {
       } as Note;
     });
   }
+
+  softDeleteNote(id: string) {
+    return this.db.doc(`/notes/${id}`).update({
+      deleted: true,
+      favorite: false,
+    });
+  }
 }
