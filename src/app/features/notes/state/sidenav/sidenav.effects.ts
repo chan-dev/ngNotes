@@ -10,7 +10,7 @@ export class SidenavEffects {
   constructor(private breakpoint: BreakpointObserver) {}
 
   toggleSidenav$ = createEffect(() =>
-    this.breakpoint.observe(['(min-width: 500px)']).pipe(
+    this.breakpoint.observe(['(min-width: 660px)']).pipe(
       map((state: BreakpointState) => {
         return sidenavActions.setSidenav({
           isMobile: !state.matches,
