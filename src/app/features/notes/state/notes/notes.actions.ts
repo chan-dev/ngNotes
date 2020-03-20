@@ -50,6 +50,9 @@ export const softDeleteNoteError = createAction(
   '[Test Component] Soft Delete Note Error',
   props<{ error: string }>()
 );
+export const openCreateNoteFormModal = createAction(
+  '[Test Component] Open Create Note Form'
+);
 // actions for selectedNoteId slice
 // TODO: replace with correct component
 // move to sidenav actions

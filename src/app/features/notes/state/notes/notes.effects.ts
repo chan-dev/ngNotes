@@ -14,7 +14,8 @@ import { Store } from '@ngrx/store';
 import * as notesActions from './notes.actions';
 import { NotesService } from '../../services/notes.service';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
-import { NoteFormData } from '../../types/note';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { CreateNoteFormComponent } from '../../components/create-note-form/create-note-form.component';
 import { TagsService } from '../../services/tags.service';
 import { getTags } from '..';
 
@@ -26,6 +27,7 @@ export class NotesEffects {
     private action$: Actions,
     private store: Store<any>,
     private notesService: NotesService
+    private modalService: BsModalService,
     private tagsService: TagsService
   ) {}
 
@@ -113,4 +115,21 @@ export class NotesEffects {
       })
     )
   );
+
+  openCreateNoteFormModal$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(notesActions.openCreateNoteFormModal),
+        tap(() =>
+          this.modalService.show(CreateNoteFormComponent, {
+            ignoreBackdropClick: true,
+            focus: true,
+            keyboard: false,
+            class: 'modal-lg',
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
 }
