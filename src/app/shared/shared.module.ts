@@ -6,6 +6,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { ChipsModule } from 'primeng/chips';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [],
@@ -17,6 +18,7 @@ import { ChipsModule } from 'primeng/chips';
     SimplebarAngularModule,
     ChipsModule,
     FormsModule,
+    NgxSpinnerModule,
   ],
   exports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { ChipsModule } from 'primeng/chips';
     SimplebarAngularModule,
     ChipsModule,
     FormsModule,
+    NgxSpinnerModule,
   ],
 })
 export class SharedModule {}

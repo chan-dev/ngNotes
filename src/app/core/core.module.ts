@@ -11,6 +11,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@angular/cdk/layout';
 import { QuillModule } from 'ngx-quill';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { environment } from '@environment/environment';
 import { reducers } from './state';
@@ -24,6 +25,7 @@ import { CustomSerializer } from './state/router';
     RouterModule,
     FontAwesomeModule,
     LayoutModule,
+    NgxSpinnerModule,
     QuillModule.forRoot({
       modules: {
         toolbar: [
@@ -63,6 +65,7 @@ import { CustomSerializer } from './state/router';
     BrowserAnimationsModule,
     RouterModule,
     FontAwesomeModule,
+    NgxSpinnerModule,
   ],
 })
 export class CoreModule {}
