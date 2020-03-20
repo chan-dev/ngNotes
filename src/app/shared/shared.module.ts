@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { ChipsModule } from 'primeng/chips';
 
@@ -12,6 +13,7 @@ import { ChipsModule } from 'primeng/chips';
     CommonModule,
     FontAwesomeModule,
     TooltipModule.forRoot(),
+    ModalModule.forRoot(),
     SimplebarAngularModule,
     ChipsModule,
     FormsModule,
@@ -20,6 +22,7 @@ import { ChipsModule } from 'primeng/chips';
     CommonModule,
     FontAwesomeModule,
     TooltipModule,
+    ModalModule,
     SimplebarAngularModule,
     ChipsModule,
     FormsModule,
