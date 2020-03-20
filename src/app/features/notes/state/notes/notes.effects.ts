@@ -16,6 +16,7 @@ import { NotesService } from '../../services/notes.service';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { NoteFormData } from '../../types/note';
 import { TagsService } from '../../services/tags.service';
+import { getTags } from '..';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {
@@ -59,9 +60,13 @@ export class NotesEffects {
   createNote$ = createEffect(() =>
     this.action$.pipe(
       ofType(notesActions.createNote),
-      exhaustMap(action => {
-        const { note, allTags } = action;
-
+      mergeMap(action =>
+        of(action).pipe(
+          withLatestFrom(this.store.select(getTags)),
+          map(([{ note }, tags]) => ({ note, tags }))
+        )
+      ),
+      exhaustMap(({ note, tags: allTags }) => {
         const newNote$ = defer(() =>
           from(this.notesService.saveNote(note, allTags))
         );

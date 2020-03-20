@@ -15,7 +15,8 @@ export const fetchNotesError = createAction(
 // TODO: replace action source
 export const createNote = createAction(
   '[Test Component] Create Note',
-  props<{ note: NoteFormData; allTags: Tag[] }>()
+  // TODO: remove allTags, we'll retrieve in the Store
+  props<{ note: NoteFormData }>()
 );
 export const createNoteSuccess = createAction(
   '[Test Component] Create Note Success',
