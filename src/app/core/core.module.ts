@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@angular/cdk/layout';
+import { QuillModule } from 'ngx-quill';
 
 import { environment } from '@environment/environment';
 import { reducers } from './state';
@@ -23,6 +24,20 @@ import { CustomSerializer } from './state/router';
     RouterModule,
     FontAwesomeModule,
     LayoutModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          [{ size: ['small', false, 'large', 'huge'] }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ font: [] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          ['clean'],
+        ],
+      },
+    }),
 
     AngularFireModule.initializeApp({
       apiKey: environment.apiKey,

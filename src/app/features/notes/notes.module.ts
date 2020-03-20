@@ -3,6 +3,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from '@shared/shared.module';
 import { NotesRoutingModule } from './notes-routing.module';
+import { QuillModule } from 'ngx-quill';
 
 import { NotesContainerComponent } from './containers/notes-container/notes-container.component';
 import { NotesEffects } from './state/notes';
@@ -38,6 +39,8 @@ const metaReducers = [
     NotesRoutingModule,
     StoreModule.forFeature('notes', reducers, { metaReducers }),
     EffectsModule.forFeature([NotesEffects, SidenavEffects]),
+    // no need to import in SharedModule, only used exclusively by this module
+    QuillModule,
   ],
 })
 export class NotesModule {}
