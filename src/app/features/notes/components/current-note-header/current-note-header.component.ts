@@ -1,13 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
-import * as fromSidenav from '@app/features/notes/state/sidenav/sidenav.actions';
-import { Observable } from 'rxjs';
-import { getSidenavIsVisible } from '../../state';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-current-note-header',
@@ -15,18 +12,18 @@ import { getSidenavIsVisible } from '../../state';
   styleUrls: ['./current-note-header.component.scss'],
 })
 export class CurrentNoteHeaderComponent implements OnInit {
-  isVisible$: Observable<boolean>;
+  @Input() sidenavVisible: boolean;
+  @Output() toggleSidenav = new EventEmitter<void>();
+
   iconArrowLeft = faAngleDoubleLeft;
   iconArrowRight = faAngleDoubleRight;
   iconPlus = faPlus;
 
-  constructor(private store: Store<any>) {
-    this.isVisible$ = this.store.select(getSidenavIsVisible);
-  }
+  constructor(private modalService: BsModalService) {}
 
   ngOnInit() {}
 
-  toggleSidenav() {
-    this.store.dispatch(fromSidenav.toggleSidenav());
+  toggle() {
+    this.toggleSidenav.emit();
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import * as fromSidenav from '@app/features/notes/state/sidenav/sidenav.actions';
+import { getSidenavIsVisible } from '../../state';
 
 import { Note } from '../../types/note';
 import { getSelectedNote } from '../../state';
@@ -14,10 +15,16 @@ import { getSelectedNote } from '../../state';
 export class CurrentNoteContainerComponent implements OnInit {
   selectedNoteTitle$: Observable<string>;
   selectedNote$: Observable<Note>;
+  sidenavVisible$: Observable<boolean>;
 
   constructor(private store: Store<any>) {
     this.selectedNote$ = this.store.select(getSelectedNote);
+    this.sidenavVisible$ = this.store.select(getSidenavIsVisible);
   }
 
   ngOnInit() {}
+
+  toggleSidenav() {
+    this.store.dispatch(fromSidenav.toggleSidenav());
+  }
 }
