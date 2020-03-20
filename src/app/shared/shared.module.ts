@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -18,6 +18,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     SimplebarAngularModule,
     ChipsModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxSpinnerModule,
   ],
   exports: [
@@ -28,6 +29,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     SimplebarAngularModule,
     ChipsModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxSpinnerModule,
   ],
 })

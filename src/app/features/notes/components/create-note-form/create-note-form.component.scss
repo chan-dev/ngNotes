@@ -1,0 +1,14 @@
+quill-editor.is-invalid {
+  .ql-toolbar,
+  .ql-container {
+    border: 1px solid var(--red);
+  }
+}
+
+.ui-inputtext.ui-state-default.ui-corner-all {
+  width: 100%;
+}
+
+.ui-chips-token {
+  margin-bottom: 0.25em !important;
+}

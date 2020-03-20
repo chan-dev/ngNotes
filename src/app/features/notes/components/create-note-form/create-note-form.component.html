@@ -1,0 +1,69 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="noteFormLabel">Create note</h5>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    aria-label="Close"
+    (click)="hideModal()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="noteForm">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input
+        type="email"
+        class="form-control"
+        name="title"
+        id="title"
+        placeholder="Note title"
+        formControlName="title"
+        [ngClass]="{ 'is-invalid': isTitleInvalid }"
+      />
+      <div class="invalid-feedback" *ngIf="isTitleInvalid">
+        title is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content">Content</label>
+      <quill-editor
+        formControlName="content"
+        [styles]="{ height: '10rem' }"
+        [ngClass]="{ 'is-invalid': isContentInvalid }"
+      ></quill-editor>
+      <div class="invalid-feedback" *ngIf="isContentInvalid">
+        content is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="tags">Tags</label>
+      <p-chips
+        formControlName="tags"
+        [allowDuplicate]="false"
+        [addOnTab]="true"
+        placeholder="add tags"
+      ></p-chips>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="hideModal()"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="noteForm.invalid"
+    (click)="saveNote()"
+  >
+    Save
+  </button>
+</div>
