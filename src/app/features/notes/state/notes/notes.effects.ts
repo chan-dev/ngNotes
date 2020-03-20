@@ -16,6 +16,7 @@ import { NotesService } from '../../services/notes.service';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CreateNoteFormComponent } from '../../components/create-note-form/create-note-form.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
 import { getTags } from '..';
 
@@ -23,10 +24,27 @@ import { getTags } from '..';
 export class NotesEffects {
   private pathToCheck = '/notes';
 
+  private openSpinnerActions = [
+    notesActions.fetchNotes,
+    notesActions.createNote,
+    notesActions.updateNote,
+    notesActions.softDeleteNote,
+  ];
+
+  private closeSpinnerActions = [
+    notesActions.fetchNotesSuccess,
+    notesActions.fetchNotesError,
+    notesActions.createNoteSuccess,
+    notesActions.createNoteError,
+    notesActions.updateNoteSuccess,
+    notesActions.updateNoteError,
+  ];
+
   constructor(
     private action$: Actions,
     private store: Store<any>,
-    private notesService: NotesService
+    private spinnerService: NgxSpinnerService,
+    private notesService: NotesService,
     private modalService: BsModalService,
     private tagsService: TagsService
   ) {}
@@ -132,4 +150,21 @@ export class NotesEffects {
     { dispatch: false }
   );
 
+  openLoadingSpinner$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(...this.openSpinnerActions),
+        tap(() => this.spinnerService.show())
+      ),
+    { dispatch: false }
+  );
+
+  closeLoadingSpinner$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(...this.closeSpinnerActions),
+        tap(() => this.spinnerService.hide())
+      ),
+    { dispatch: false }
+  );
 }

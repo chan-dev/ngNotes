@@ -53,6 +53,13 @@ export const softDeleteNoteError = createAction(
 export const openCreateNoteFormModal = createAction(
   '[Test Component] Open Create Note Form'
 );
+// TODO: should we move it to AppEffects since it's global
+export const openLoadingSpinner = createAction(
+  '[Test Component] Open Loading Spinner'
+);
+export const closeLoadingSpinner = createAction(
+  '[Test Component] Close Loading Spinner'
+);
 // actions for selectedNoteId slice
 // TODO: replace with correct component
 // move to sidenav actions
