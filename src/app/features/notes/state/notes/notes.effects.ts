@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import * as notesActions from './notes.actions';
 import { NotesService } from '../../services/notes.service';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
-import { NoteFormData } from '../../models/note';
+import { NoteFormData } from '../../types/note';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {

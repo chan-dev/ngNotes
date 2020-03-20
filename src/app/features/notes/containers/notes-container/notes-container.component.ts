@@ -7,7 +7,7 @@ import {
   getSidenavIsVisible,
   getSelectedNote,
 } from '@app/features/notes/state';
-import { Note } from '../../models/note';
+import { Note, NoteFormData, Tag } from '../../types/note';
 import { map } from 'rxjs/operators';
 
 @Component({

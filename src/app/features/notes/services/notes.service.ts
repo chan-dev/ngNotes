@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map, mergeMap, take, toArray } from 'rxjs/operators';
 
-import { Note, NoteFormData, Tag } from '../models/note';
+import { Note, NoteFormData, Tag } from '../types/note';
 import { Observable, from, of } from 'rxjs';
 import difference from 'lodash-es/difference';
 

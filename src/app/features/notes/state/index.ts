@@ -5,7 +5,7 @@ import {
 } from '@ngrx/store';
 import * as fromSidenav from './sidenav';
 import * as fromNotes from './notes';
-import { Note } from '../models/note';
+import { Note } from '../types/note';
 import { SidenavMenus } from './sidenav';
 
 export interface NotesFeatureState {

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Note, NoteFormData, Tag } from '../../models/note';
+import { Note, NoteFormData, Tag } from '../../types/note';
 
 // actions for items slice
 export const fetchNotes = createAction('[Route Navigation] Fetch Notes');

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Note } from '../../models/note';
+import { Note } from '../../types/note';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({

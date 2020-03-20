@@ -8,7 +8,7 @@ import {
   faShareSquare,
 } from '@fortawesome/free-regular-svg-icons';
 
-import { Note } from '../../models/note';
+import { Note } from '../../types/note';
 import {
   getSelectedNoteId,
   getSidenavSelectedMenu,
@@ -17,7 +17,7 @@ import {
 } from '../../state';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actions';
-import { MenuIcons } from '../../models/menu-icons';
+import { MenuIcons } from '../../types/menu-icons';
 import { SidenavMenus } from '../../state/sidenav';
 import { share } from 'rxjs/operators';
 

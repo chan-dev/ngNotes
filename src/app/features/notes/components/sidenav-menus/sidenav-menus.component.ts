@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MenuIcons } from '../../models/menu-icons';
+import { MenuIcons } from '../../types/menu-icons';
 import { SidenavMenus } from '../../state/sidenav';
 
 @Component({
