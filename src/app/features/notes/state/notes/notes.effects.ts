@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, combineLatest, from, defer } from 'rxjs';
-import { exhaustMap, catchError, map, tap, filter } from 'rxjs/operators';
+import {
+  exhaustMap,
+  catchError,
+  map,
+  tap,
+  filter,
+  withLatestFrom,
+  mergeMap,
+} from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-
 import * as notesActions from './notes.actions';
 import { NotesService } from '../../services/notes.service';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { NoteFormData } from '../../types/note';
+import { TagsService } from '../../services/tags.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {
@@ -17,6 +25,7 @@ export class NotesEffects {
     private action$: Actions,
     private store: Store<any>,
     private notesService: NotesService
+    private tagsService: TagsService
   ) {}
 
   // during the navigation to /notes, dispatch the load action
@@ -32,12 +41,13 @@ export class NotesEffects {
         combineLatest([
           this.notesService.getNotes(),
           this.notesService.getSharedNotes(),
+          this.tagsService.getTags(),
         ]).pipe(
-          map(([notes, sharedNotes]) => {
-            console.log({ notes, sharedNotes });
+          map(([notes, sharedNotes, tags]) => {
             return notesActions.fetchNotesSuccess({
               items: notes,
               sharedItems: sharedNotes,
+              tags,
             });
           }),
           catchError(error => of(notesActions.fetchNotesError({ error })))

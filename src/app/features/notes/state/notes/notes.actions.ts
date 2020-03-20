@@ -5,7 +5,7 @@ import { Note, NoteFormData, Tag } from '../../types/note';
 export const fetchNotes = createAction('[Route Navigation] Fetch Notes');
 export const fetchNotesSuccess = createAction(
   '[Notes Api] Fetch Success',
-  props<{ items: Note[]; sharedItems: Note[] }>()
+  props<{ items: Note[]; sharedItems: Note[]; tags: Tag[] }>()
 );
 export const fetchNotesError = createAction(
   '[Notes Api] Fetch Error',

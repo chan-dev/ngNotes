@@ -132,3 +132,9 @@ export const getSelectedNote = createSelector(
     return selectedMenu === SidenavMenus.Shared ? sharedNotes[0] : notes[0];
   }
 );
+
+// tags
+export const getTags = createSelector(
+  getNotesState,
+  (state: fromNotes.NotesState) => state.tags
+);

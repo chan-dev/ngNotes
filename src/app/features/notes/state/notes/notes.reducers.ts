@@ -18,9 +18,10 @@ const featureReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(notesActions.fetchNotesSuccess, (state, { items, sharedItems }) => ({
+  on(notesActions.fetchNotesSuccess, (state, { items, sharedItems, tags }) => ({
     ...state,
     items,
+    tags,
     sharedItems,
     loading: false,
     error: null,
