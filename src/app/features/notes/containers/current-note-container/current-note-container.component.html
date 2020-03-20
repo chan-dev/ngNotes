@@ -2,6 +2,7 @@
   <app-current-note-header
     [sidenavVisible]="sidenavVisible$ | async"
     (toggleSidenav)="toggleSidenav()"
+    (openCreateModal)="openCreateNoteModal()"
   ></app-current-note-header>
   <ng-container *ngIf="selectedNote$ | async as note">
     <!-- TODO: move to component -->

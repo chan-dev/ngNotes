@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromSidenav from '@app/features/notes/state/sidenav/sidenav.actions';
+import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actions';
+import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 import { getSidenavIsVisible } from '../../state';
 
 import { Note } from '../../types/note';
@@ -25,6 +26,10 @@ export class CurrentNoteContainerComponent implements OnInit {
   ngOnInit() {}
 
   toggleSidenav() {
-    this.store.dispatch(fromSidenav.toggleSidenav());
+    this.store.dispatch(sidenavActions.toggleSidenav());
+  }
+
+  openCreateNoteModal() {
+    this.store.dispatch(noteActions.openCreateNoteFormModal());
   }
 }

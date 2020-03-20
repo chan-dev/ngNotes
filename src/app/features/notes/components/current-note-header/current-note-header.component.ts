@@ -4,26 +4,31 @@ import {
   faAngleDoubleRight,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-current-note-header',
   templateUrl: './current-note-header.component.html',
   styleUrls: ['./current-note-header.component.scss'],
 })
+// TODO: convert to container component?
 export class CurrentNoteHeaderComponent implements OnInit {
   @Input() sidenavVisible: boolean;
   @Output() toggleSidenav = new EventEmitter<void>();
+  @Output() openCreateModal = new EventEmitter<void>();
 
   iconArrowLeft = faAngleDoubleLeft;
   iconArrowRight = faAngleDoubleRight;
   iconPlus = faPlus;
 
-  constructor(private modalService: BsModalService) {}
+  constructor() {}
 
   ngOnInit() {}
 
   toggle() {
     this.toggleSidenav.emit();
+  }
+
+  openModal() {
+    this.openCreateModal.emit();
   }
 }
