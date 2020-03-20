@@ -8,4 +8,14 @@
   <main class="flex-fill">
     <app-current-note-container></app-current-note-container>
   </main>
+  <ngx-spinner
+    bdOpacity="0.5"
+    bdColor="#333"
+    size="medium"
+    color="#fff"
+    [fullScreen]="true"
+    type="timer"
+  >
+    <p style="color: #fff">Loading</p>
+  </ngx-spinner>
 </div>
