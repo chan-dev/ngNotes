@@ -1,7 +1,7 @@
 <div class="d-flex">
   <aside
     class="flex-grow-0"
-    [style.display]="(isVisible$ | async) ? 'block' : 'none'"
+    [style.display]="(isSidenavVisible$ | async) ? 'block' : 'none'"
   >
     <app-sidenav-container></app-sidenav-container>
   </aside>

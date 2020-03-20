@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 })
 // TODO: accessibility
 // https://valor-software.com/ngx-bootstrap/#/modals#accessibility
-export class CreateNoteFormComponent implements OnInit {
+export class CreateNoteFormComponent {
   noteForm: FormGroup;
   tags: string[];
 
@@ -28,8 +28,6 @@ export class CreateNoteFormComponent implements OnInit {
       tags: [''],
     });
   }
-
-  ngOnInit() {}
 
   hideModal() {
     this.bsModalRef.hide();

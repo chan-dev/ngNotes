@@ -4,7 +4,6 @@
     class="btn shadow-none header__toggle-menu"
     (click)="toggle()"
   >
-    <!-- <ng-container *ngIf="isVisible$ | async as visible; else sideNavHidden"> -->
     <ng-container *ngIf="sidenavVisible; else sideNavHidden">
       <fa-icon [icon]="iconArrowLeft"></fa-icon>
     </ng-container>

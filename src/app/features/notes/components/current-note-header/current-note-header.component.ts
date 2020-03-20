@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
@@ -11,7 +11,7 @@ import {
   styleUrls: ['./current-note-header.component.scss'],
 })
 // TODO: convert to container component?
-export class CurrentNoteHeaderComponent implements OnInit {
+export class CurrentNoteHeaderComponent {
   @Input() sidenavVisible: boolean;
   @Output() toggleSidenav = new EventEmitter<void>();
   @Output() openCreateModal = new EventEmitter<void>();
@@ -19,10 +19,6 @@ export class CurrentNoteHeaderComponent implements OnInit {
   iconArrowLeft = faAngleDoubleLeft;
   iconArrowRight = faAngleDoubleRight;
   iconPlus = faPlus;
-
-  constructor() {}
-
-  ngOnInit() {}
 
   toggle() {
     this.toggleSidenav.emit();
