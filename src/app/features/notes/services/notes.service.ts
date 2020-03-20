@@ -82,6 +82,7 @@ export class NotesService {
       // save all new tags
       batch.set(newTagRef, {
         name: tag,
+        authorId: formData.authorId,
       });
       return newTagRef.id;
     });
@@ -134,6 +135,7 @@ export class NotesService {
       // save all new tags
       batch.set(newTagRef, {
         name: tag,
+        authorId: formData.authorId,
       });
       return newTagRef.id;
     });
