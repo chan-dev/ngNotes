@@ -12,6 +12,7 @@ import {
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as notesActions from './notes.actions';
+import * as sidenavActions from '../sidenav/sidenav.actions';
 import { NotesService } from '../../services/notes.service';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -94,6 +95,25 @@ export class NotesEffects {
           map(newNote => notesActions.createNoteSuccess({ note: newNote })),
           catchError(error => of(notesActions.createNoteError({ error })))
         );
+      })
+    )
+  );
+
+  setNewNoteAsActive$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.createNoteSuccess),
+      map(action => {
+        const { note } = action;
+        return notesActions.selectNote({ id: note.id });
+      })
+    )
+  );
+
+  setNotesMenuAsActive$$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.createNoteSuccess),
+      map(() => {
+        return sidenavActions.selectNotesMenu();
       })
     )
   );
