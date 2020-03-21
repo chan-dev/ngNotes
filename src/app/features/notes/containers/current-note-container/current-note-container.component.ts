@@ -28,7 +28,7 @@ export class CurrentNoteContainerComponent implements OnInit {
   edit(id) {}
   share(id) {}
   delete(id) {
-    this.store.dispatch(noteActions.softDeleteNote({ id }));
+    this.store.dispatch(noteActions.openDeleteConfirmModal({ id }));
   }
 
   toggleSidenav() {

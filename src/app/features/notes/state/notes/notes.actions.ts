@@ -52,6 +52,11 @@ export const softDeleteNoteError = createAction(
 export const openCreateNoteFormModal = createAction(
   '[CurrentNoteContainer component] Open Create Note Form'
 );
+// TODO: rename event source
+export const openDeleteConfirmModal = createAction(
+  '[CurrentNoteContainer component] Open Delete Confirm',
+  props<{ id: string }>()
+);
 // TODO: should we move it to AppEffects since it's global
 export const openLoadingSpinner = createAction('[App] Open Loading Spinner');
 export const closeLoadingSpinner = createAction('[App] Close Loading Spinner');

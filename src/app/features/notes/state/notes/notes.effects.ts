@@ -21,6 +21,7 @@ import { CreateNoteFormComponent } from '../../containers/create-note-form/creat
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
 import { getTags } from './notes.selectors';
+import { DeleteNoteConfirmComponent } from '../../containers/delete-note-confirm/delete-note-confirm.component';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {
@@ -182,6 +183,25 @@ export class NotesEffects {
             class: 'modal-lg',
           })
         )
+      ),
+    { dispatch: false }
+  );
+
+  openDeleteConfirmModal$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(notesActions.openDeleteConfirmModal),
+        tap(action => {
+          this.modalService.show(DeleteNoteConfirmComponent, {
+            ignoreBackdropClick: true,
+            focus: true,
+            keyboard: false,
+            class: 'modal-sm',
+            // take note that we pass the id of the current note
+            // when opening the modal
+            initialState: { id: action.id },
+          });
+        })
       ),
     { dispatch: false }
   );
