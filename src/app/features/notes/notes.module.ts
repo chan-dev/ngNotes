@@ -15,7 +15,7 @@ import { CurrentNoteHeaderComponent } from './components/current-note-header/cur
 import { NotesListComponent } from './components/notes-list/notes-list.component';
 import { CurrentNoteContainerComponent } from './containers/current-note-container/current-note-container.component';
 import { SidenavMenusComponent } from './components/sidenav-menus/sidenav-menus.component';
-import { CreateNoteFormComponent } from './components/create-note-form/create-note-form.component';
+import { CreateNoteFormComponent } from './containers/create-note-form/create-note-form.component';
 import { createLocalStorageSyncReducer } from '@shared/helpers/localStorageSync';
 
 const metaReducers = [

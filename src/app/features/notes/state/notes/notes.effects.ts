@@ -15,7 +15,7 @@ import * as notesActions from './notes.actions';
 import { NotesService } from '../../services/notes.service';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { CreateNoteFormComponent } from '../../components/create-note-form/create-note-form.component';
+import { CreateNoteFormComponent } from '../../containers/create-note-form/create-note-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
 import { getTags } from '..';
