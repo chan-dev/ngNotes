@@ -190,6 +190,7 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(...this.openSpinnerActions),
+        tap(() => this.store.dispatch(notesActions.openLoadingSpinner())),
         tap(() => this.spinnerService.show())
       ),
     { dispatch: false }
@@ -199,6 +200,7 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(...this.closeSpinnerActions),
+        tap(() => this.store.dispatch(notesActions.closeLoadingSpinner())),
         tap(() => this.spinnerService.hide())
       ),
     { dispatch: false }

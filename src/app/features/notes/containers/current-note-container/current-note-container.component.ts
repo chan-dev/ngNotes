@@ -25,6 +25,12 @@ export class CurrentNoteContainerComponent implements OnInit {
 
   ngOnInit() {}
 
+  edit(id) {}
+  share(id) {}
+  delete(id) {
+    this.store.dispatch(noteActions.softDeleteNote({ id }));
+  }
+
   toggleSidenav() {
     this.store.dispatch(sidenavActions.toggleSidenav());
   }

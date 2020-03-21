@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="current-note mt-4">
+        <!-- <div class="d-flex" style="padding: 2.5rem"> -->
+        <div class="current-note__button-icons d-flex justify-content-end mb-3">
+          <fa-icon
+            [icon]="editLogo"
+            tooltip="Edit"
+            (click)="editNote()"
+          ></fa-icon>
+          <fa-icon
+            [icon]="shareLogo"
+            tooltip="Share"
+            (click)="shareNote()"
+          ></fa-icon>
+          <fa-icon
+            [icon]="deleteLogo"
+            tooltip="Delete"
+            (click)="deleteNote()"
+          ></fa-icon>
+        </div>
+        <div class="current-note__content">
+          {{ note.content }}
+        </div>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>

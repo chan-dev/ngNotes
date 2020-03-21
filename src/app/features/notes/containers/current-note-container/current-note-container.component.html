@@ -5,9 +5,11 @@
     (openCreateModal)="openCreateNoteModal()"
   ></app-current-note-header>
   <ng-container *ngIf="selectedNote$ | async as note">
-    <!-- TODO: move to component -->
-    <div class="d-flex" style="padding: 2.5rem">
-      {{ note.content }}
-    </div>
+    <app-current-note
+      [note]="note"
+      (edit)="edit($event)"
+      (share)="share($event)"
+      (delete)="delete($event)"
+    ></app-current-note>
   </ng-container>
 </ng-container>
