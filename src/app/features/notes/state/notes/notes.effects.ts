@@ -39,6 +39,8 @@ export class NotesEffects {
     notesActions.createNoteError,
     notesActions.updateNoteSuccess,
     notesActions.updateNoteError,
+    notesActions.softDeleteNoteSuccess,
+    notesActions.softDeleteNoteError,
   ];
 
   constructor(
