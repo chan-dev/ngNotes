@@ -62,3 +62,7 @@ export const selectNote = createAction(
   '[SidenavContainerComponent] Selected Note',
   props<{ id: string | null }>()
 );
+
+// TODO: move to AppEffects since it's global
+export const showToasterSuccess = createAction('[App] Show Toaster Succcess');
+export const showToasterError = createAction('[App] Show Toaster Error');

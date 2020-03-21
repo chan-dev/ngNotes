@@ -11,6 +11,7 @@ import {
   mergeMap,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 import * as notesActions from './notes.actions';
 import * as sidenavActions from '../sidenav/sidenav.actions';
 import { NotesService } from '../../services/notes.service';
@@ -43,13 +44,26 @@ export class NotesEffects {
     notesActions.softDeleteNoteError,
   ];
 
+  private successToasterActions = [
+    notesActions.createNoteSuccess,
+    notesActions.updateNoteSuccess,
+    notesActions.softDeleteNoteSuccess,
+  ];
+
+  private errorToasterActions = [
+    notesActions.createNoteError,
+    notesActions.updateNoteError,
+    notesActions.softDeleteNoteError,
+  ];
+
   constructor(
     private action$: Actions,
     private store: Store<any>,
     private spinnerService: NgxSpinnerService,
     private notesService: NotesService,
     private modalService: BsModalService,
-    private tagsService: TagsService
+    private tagsService: TagsService,
+    private toaster: ToastrService
   ) {}
 
   // during the navigation to /notes, dispatch the load action
@@ -186,6 +200,52 @@ export class NotesEffects {
       this.action$.pipe(
         ofType(...this.closeSpinnerActions),
         tap(() => this.spinnerService.hide())
+      ),
+    { dispatch: false }
+  );
+
+  // TODO: move to AppEffect
+  // TODO: find a better approach
+  showToasterSuccess$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(...this.successToasterActions),
+        tap(() => this.store.dispatch(notesActions.showToasterSuccess())),
+        tap(action => {
+          let message: string;
+          const { type } = action;
+
+          if (type === notesActions.createNoteSuccess.type) {
+            message = 'New note created';
+          } else if (type === notesActions.updateNoteSuccess.type) {
+            message = 'Note updated';
+          } else {
+            message = 'Note deleted';
+          }
+          this.toaster.success(message);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  showToasterError$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(...this.errorToasterActions),
+        tap(() => this.store.dispatch(notesActions.showToasterError())),
+        tap(action => {
+          let message: string;
+          const { type } = action;
+
+          if (type === notesActions.createNoteError.type) {
+            message = 'Create note failed';
+          } else if (type === notesActions.updateNoteError.type) {
+            message = 'Updating note failed';
+          } else {
+            message = 'Deleting note failed';
+          }
+          this.toaster.error(message);
+        })
       ),
     { dispatch: false }
   );
