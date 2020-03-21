@@ -18,6 +18,7 @@ import { SidenavMenusComponent } from './components/sidenav-menus/sidenav-menus.
 import { CreateNoteFormComponent } from './containers/create-note-form/create-note-form.component';
 import { createLocalStorageSyncReducer } from '@shared/helpers/localStorageSync';
 import { CurrentNoteComponent } from './components/current-note/current-note.component';
+import { DeleteNoteConfirmComponent } from './containers/delete-note-confirm/delete-note-confirm.component';
 
 const metaReducers = [
   createLocalStorageSyncReducer({
@@ -37,6 +38,7 @@ const metaReducers = [
     SidenavMenusComponent,
     CreateNoteFormComponent,
     CurrentNoteComponent,
+    DeleteNoteConfirmComponent,
   ],
   imports: [
     SharedModule,
