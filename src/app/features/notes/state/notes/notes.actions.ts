@@ -14,16 +14,15 @@ export const fetchNotesError = createAction(
 
 // TODO: replace action source
 export const createNote = createAction(
-  '[Test Component] Create Note',
-  // TODO: remove allTags, we'll retrieve in the Store
+  '[CreateNoteForm component] Create Note',
   props<{ note: NoteFormData }>()
 );
 export const createNoteSuccess = createAction(
-  '[Test Component] Create Note Success',
+  '[Notes Api] Create Note Success',
   props<{ note: Note }>()
 );
 export const createNoteError = createAction(
-  '[Test Component] Create Note Error',
+  '[Notes Api] Create Note Error',
   props<{ error: string }>()
 );
 export const updateNote = createAction(
@@ -51,15 +50,11 @@ export const softDeleteNoteError = createAction(
   props<{ error: string }>()
 );
 export const openCreateNoteFormModal = createAction(
-  '[Test Component] Open Create Note Form'
+  '[CurrentNoteContainer component] Open Create Note Form'
 );
 // TODO: should we move it to AppEffects since it's global
-export const openLoadingSpinner = createAction(
-  '[Test Component] Open Loading Spinner'
-);
-export const closeLoadingSpinner = createAction(
-  '[Test Component] Close Loading Spinner'
-);
+export const openLoadingSpinner = createAction('[App] Open Loading Spinner');
+export const closeLoadingSpinner = createAction('[App] Close Loading Spinner');
 // actions for selectedNoteId slice
 // TODO: replace with correct component
 // move to sidenav actions
