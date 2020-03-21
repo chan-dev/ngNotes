@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actions';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
-import { getSidenavIsVisible } from '../../state';
+import { getSidenavIsVisible } from '../../state/sidenav/sidenav.selectors';
 
 import { Note } from '../../types/note';
-import { getSelectedNote } from '../../state';
+import { getSelectedNote } from '../../state/notes/notes.selectors';
 
 @Component({
   selector: 'app-current-note-container',

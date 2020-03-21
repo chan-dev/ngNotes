@@ -18,7 +18,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CreateNoteFormComponent } from '../../containers/create-note-form/create-note-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
-import { getTags } from '..';
+import { getTags } from './notes.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {

@@ -9,17 +9,18 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 import { Note } from '../../types/note';
+import { MenuIcons } from '../../types/menu-icons';
+import { SidenavMenus } from '../../state/sidenav/sidenav.state';
 import {
-  getSelectedNoteId,
-  getSidenavSelectedMenu,
   getFilteredNotes,
+  getSelectedNoteId,
+} from '../../state/notes/notes.selectors';
+import {
+  getSidenavSelectedMenu,
   getSidenavExpandIcons,
-} from '../../state';
+} from '../../state/sidenav/sidenav.selectors';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actions';
-import { MenuIcons } from '../../types/menu-icons';
-import { SidenavMenus } from '../../state/sidenav';
-import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav-container',
@@ -60,7 +61,7 @@ export class SidenavContainerComponent {
     this.notes$ = this.store.select(getFilteredNotes);
     this.selectedNoteId$ = this.store.select(getSelectedNoteId);
     this.selectedMenu$ = this.store.select(getSidenavSelectedMenu);
-    this.expandIcons$ = this.store.select(getSidenavExpandIcons).pipe(share());
+    this.expandIcons$ = this.store.select(getSidenavExpandIcons);
   }
 
   setSelectedNote(id: string) {

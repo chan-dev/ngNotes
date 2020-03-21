@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { getSidenavIsVisible } from '@app/features/notes/state';
+import { getSidenavIsVisible } from '../../state/sidenav/sidenav.selectors';
 
 @Component({
   selector: 'app-notes',

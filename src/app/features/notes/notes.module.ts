@@ -6,7 +6,7 @@ import { NotesRoutingModule } from './notes-routing.module';
 import { QuillModule } from 'ngx-quill';
 
 import { NotesContainerComponent } from './containers/notes-container/notes-container.component';
-import { NotesEffects } from './state/notes';
+import { NotesEffects } from './state/notes/notes.effects';
 import { SidenavEffects } from './state/sidenav/sidenav.effects';
 import { reducers } from './state';
 import { SidenavContainerComponent } from './containers/sidenav-container/sidenav-container.component';
