@@ -29,6 +29,7 @@ export class CurrentNoteContainerComponent implements OnInit {
   ngOnInit() {}
 
   edit(note: Note) {
+    this.store.dispatch(noteActions.openUpdateNoteFormModal({ note }));
   }
   share(id) {}
   delete(id) {

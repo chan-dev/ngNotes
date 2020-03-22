@@ -210,7 +210,7 @@ export class NotesService {
       tags: allNoteTagsMap,
     };
 
-    batch.set(currentNoteRef, currentNoteData, { merge: true });
+    batch.set(currentNoteRef, currentNoteData, { merge: false });
 
     return batch.commit().then(() => {
       return {

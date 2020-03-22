@@ -19,6 +19,7 @@ import { CreateNoteFormComponent } from './containers/create-note-form/create-no
 import { createLocalStorageSyncReducer } from '@shared/helpers/localStorageSync';
 import { CurrentNoteComponent } from './components/current-note/current-note.component';
 import { DeleteNoteConfirmComponent } from './containers/delete-note-confirm/delete-note-confirm.component';
+import { UpdateNoteFormComponent } from './containers/update-note-form/update-note-form.component';
 
 const metaReducers = [
   createLocalStorageSyncReducer({
@@ -39,6 +40,7 @@ const metaReducers = [
     CreateNoteFormComponent,
     CurrentNoteComponent,
     DeleteNoteConfirmComponent,
+    UpdateNoteFormComponent,
   ],
   imports: [
     SharedModule,

@@ -13,7 +13,7 @@ import {
 })
 export class CurrentNoteComponent implements OnInit {
   @Input() note: Note;
-  @Output() edit = new EventEmitter<string>();
+  @Output() edit = new EventEmitter<Note>();
   @Output() share = new EventEmitter<string>();
   @Output() delete = new EventEmitter<string>();
 
@@ -26,7 +26,7 @@ export class CurrentNoteComponent implements OnInit {
   ngOnInit() {}
 
   editNote() {
-    this.edit.emit(this.note.id);
+    this.edit.emit(this.note);
   }
 
   shareNote() {

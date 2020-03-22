@@ -149,9 +149,13 @@ export class NotesEffects {
   updateNote$ = createEffect(() =>
     this.action$.pipe(
       ofType(notesActions.updateNote),
-      exhaustMap(action => {
-        const { id, note, allTags } = action;
-
+      mergeMap(action =>
+        of(action).pipe(
+          withLatestFrom(this.store.select(getTags)),
+          map(([{ note, id }, tags]) => ({ id, note, tags }))
+        )
+      ),
+      exhaustMap(({ id, note, tags: allTags }) => {
         const updatedNote$ = defer(() =>
           from(this.notesService.updateNote(id, note, allTags))
         );
@@ -194,6 +198,25 @@ export class NotesEffects {
             class: 'modal-lg',
           })
         )
+      ),
+    { dispatch: false }
+  );
+
+  openUpdateNoteFormModal$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(notesActions.openUpdateNoteFormModal),
+        tap(action => {
+          this.modalService.show(UpdateNoteFormComponent, {
+            ignoreBackdropClick: true,
+            focus: true,
+            keyboard: false,
+            class: 'modal-lg',
+            initialState: {
+              note: action.note,
+            },
+          });
+        })
       ),
     { dispatch: false }
   );

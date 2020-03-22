@@ -27,7 +27,7 @@ export const createNoteError = createAction(
 );
 export const updateNote = createAction(
   '[Test Component] Update Note',
-  props<{ id: string; note: NoteFormData; allTags: Tag[] }>()
+  props<{ id: string; note: NoteFormData }>()
 );
 export const updateNoteSuccess = createAction(
   '[Test Component] Update Note Success',
@@ -51,6 +51,10 @@ export const softDeleteNoteError = createAction(
 );
 export const openCreateNoteFormModal = createAction(
   '[CurrentNoteContainer component] Open Create Note Form'
+);
+export const openUpdateNoteFormModal = createAction(
+  '[CurrentNoteContainer component] Open Update Note Form',
+  props<{ note: Note }>()
 );
 // TODO: rename event source
 export const openDeleteConfirmModal = createAction(
