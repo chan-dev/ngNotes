@@ -149,7 +149,7 @@ export class NotesService {
     }, {});
 
     // create the new note and associate the tags map
-    const newNoteRef = firestore.collection('/notes').doc('newNote');
+    const newNoteRef = firestore.collection('/notes').doc();
     const newNoteData = {
       ...noteData,
       favorite: false,
