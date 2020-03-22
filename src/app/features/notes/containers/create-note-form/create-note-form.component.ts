@@ -48,7 +48,6 @@ export class CreateNoteFormComponent {
             content,
             tags,
             authorId: 'rxBjk2snBo67SYtlQE1Z',
-            date: Date.now().toString(), // TODO: replace with date-fns call
           },
         })
       );

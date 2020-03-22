@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Note } from '../../types/note';
+import { NoteWithFetchedTags } from '../../types/note';
 import {
   faEdit,
   faShareSquare,
@@ -12,8 +12,8 @@ import {
   styleUrls: ['./current-note.component.scss'],
 })
 export class CurrentNoteComponent implements OnInit {
-  @Input() note: Note;
-  @Output() edit = new EventEmitter<Note>();
+  @Input() note: NoteWithFetchedTags;
+  @Output() edit = new EventEmitter<NoteWithFetchedTags>();
   @Output() share = new EventEmitter<string>();
   @Output() delete = new EventEmitter<string>();
 

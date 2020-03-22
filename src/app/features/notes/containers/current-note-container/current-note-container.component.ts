@@ -5,11 +5,8 @@ import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actio
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 import { getSidenavIsVisible } from '../../state/sidenav/sidenav.selectors';
 
-import { Note } from '../../types/note';
-import {
-  getSelectedNote,
-  getSelectedNoteWithTags,
-} from '../../state/notes/notes.selectors';
+import { Note, NoteWithFetchedTags } from '../../types/note';
+import { getSelectedNoteWithTags } from '../../state/notes/notes.selectors';
 
 @Component({
   selector: 'app-current-note-container',
@@ -18,7 +15,7 @@ import {
 })
 export class CurrentNoteContainerComponent implements OnInit {
   selectedNoteTitle$: Observable<string>;
-  selectedNote$: Observable<Note>;
+  selectedNote$: Observable<NoteWithFetchedTags>;
   sidenavVisible$: Observable<boolean>;
 
   constructor(private store: Store<any>) {
@@ -28,7 +25,7 @@ export class CurrentNoteContainerComponent implements OnInit {
 
   ngOnInit() {}
 
-  edit(note: Note) {
+  edit(note: NoteWithFetchedTags) {
     this.store.dispatch(noteActions.openUpdateNoteFormModal({ note }));
   }
   share(id) {}

@@ -54,7 +54,7 @@ export const openCreateNoteFormModal = createAction(
 );
 export const openUpdateNoteFormModal = createAction(
   '[CurrentNoteContainer component] Open Update Note Form',
-  props<{ note: Note }>()
+  props<{ note: NoteWithFetchedTags }>()
 );
 // TODO: rename event source
 export const openDeleteConfirmModal = createAction(

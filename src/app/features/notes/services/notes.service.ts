@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, mergeMap, take, toArray, switchMap, tap } from 'rxjs/operators';
+import { map, mergeMap, take, toArray, switchMap } from 'rxjs/operators';
 
 import { Note, NoteFormData, Tag, NoteWithFetchedTags } from '../types/note';
 import { Observable, from } from 'rxjs';
@@ -148,12 +148,16 @@ export class NotesService {
       return acc;
     }, {});
 
+    const currentDate = Date.now();
+
     // create the new note and associate the tags map
     const newNoteRef = firestore.collection('/notes').doc();
     const newNoteData = {
       ...noteData,
       favorite: false,
       deleted: false,
+      created_at: +currentDate,
+      updated_at: +currentDate,
       tags: allNoteTagsMap,
     };
     newNoteRef.set(newNoteData);
@@ -205,9 +209,8 @@ export class NotesService {
     const currentNoteRef = firestore.doc(`/notes/${id}`);
     const currentNoteData = {
       ...noteData,
-      favorite: false,
-      deleted: false,
       tags: allNoteTagsMap,
+      updated_at: +Date.now(),
     };
 
     batch.set(currentNoteRef, currentNoteData, { merge: false });
