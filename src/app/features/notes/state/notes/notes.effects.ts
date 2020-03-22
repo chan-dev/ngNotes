@@ -68,6 +68,11 @@ export class NotesEffects {
     sidenavActions.selectTrashMenu,
   ];
 
+  private switchToNotesMenuOnSuccessActions = [
+    notesActions.createNoteSuccess,
+    notesActions.softDeleteNoteSuccess,
+  ];
+
   constructor(
     private action$: Actions,
     private store: Store<any>,
@@ -127,21 +132,11 @@ export class NotesEffects {
     )
   );
 
-  setNewNoteAsActive$ = createEffect(() =>
+  switchToNotesMenuOnSuccessActions$ = createEffect(() =>
     this.action$.pipe(
-      ofType(notesActions.createNoteSuccess),
-      map(action => {
-        const { note } = action;
-        return notesActions.selectNote({ id: note.id });
-      })
-    )
-  );
-
-  setNotesMenuAsActive$$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(notesActions.createNoteSuccess),
-      map(() => {
-        return sidenavActions.selectNotesMenu();
+      ofType(...this.switchToNotesMenuOnSuccessActions),
+      switchMap(_ => {
+        return [sidenavActions.selectNotesMenu()];
       })
     )
   );
