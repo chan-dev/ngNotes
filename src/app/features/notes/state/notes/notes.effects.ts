@@ -98,12 +98,15 @@ export class NotesEffects {
           this.notesService.getSharedNotes(),
           this.tagsService.getTags(),
         ]).pipe(
-          map(([notes, sharedNotes, tags]) => {
-            return notesActions.fetchNotesSuccess({
-              items: notes,
-              sharedItems: sharedNotes,
-              tags,
-            });
+          switchMap(([notes, sharedNotes, tags]) => {
+            return [
+              notesActions.fetchNotesSuccess({
+                items: notes,
+                sharedItems: sharedNotes,
+                tags,
+              }),
+              sidenavActions.selectNotesMenu()
+            ];
           }),
           catchError(error => of(notesActions.fetchNotesError({ error })))
         )
