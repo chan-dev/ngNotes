@@ -78,6 +78,12 @@ export const getSelectedNoteId = createSelector(
   (state: fromNotes.NotesState) => state.selectedNoteId
 );
 
+export const getSelectedNoteWithTags = createSelector(
+  getNotesState,
+  (state: fromNotes.NotesState) => state.selectedNote
+);
+
+// TODO: check if this is still needed
 export const getSelectedNote = createSelector(
   getFilteredNotes,
   getSharedNotes,

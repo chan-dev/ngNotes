@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Note, NoteFormData, Tag } from '../../types/note';
+import { Note, NoteFormData, Tag, NoteWithFetchedTags } from '../../types/note';
 
 // actions for items slice
 export const fetchNotes = createAction('[Route Navigation] Fetch Notes');
@@ -66,6 +66,20 @@ export const closeLoadingSpinner = createAction('[App] Close Loading Spinner');
 export const selectNote = createAction(
   '[SidenavContainerComponent] Selected Note',
   props<{ id: string | null }>()
+);
+// TODO: tentative solution for now before re-write
+export const selectNoteWithTags = createAction(
+  '[Notes Api] Select Note With Tags',
+  props<{ id: string | null }>()
+);
+export const selectNoteWithTagsSuccess = createAction(
+  '[Notes Api] Select Note With Tags Success',
+  props<{ note: NoteWithFetchedTags }>()
+);
+
+export const selectNoteWithTagsError = createAction(
+  '[Notes Api] Select Note With Tags Error',
+  props<{ error: string }>()
 );
 
 // TODO: move to AppEffects since it's global

@@ -9,6 +9,7 @@ const initialState: NotesState = {
   error: null,
   loading: false,
   selectedNoteId: null,
+  selectedNote: null,
 };
 
 const featureReducer = createReducer(
@@ -80,10 +81,23 @@ const featureReducer = createReducer(
     loading: false,
     error,
   })),
-  on(notesActions.selectNote, (state, { id }) => ({
+  on(notesActions.selectNoteWithTags, (state, { id }) => ({
     ...state,
     selectedNoteId: id,
     error: null,
+    loading: false,
+  })),
+  on(notesActions.selectNoteWithTagsSuccess, (state, { note }) => ({
+    ...state,
+    selectedNote: note,
+    error: null,
+    loading: false,
+  })),
+  on(notesActions.selectNoteWithTagsError, (state, { error }) => ({
+    ...state,
+    selectedNote: null,
+    selectedNoteId: null,
+    error,
     loading: false,
   }))
 );

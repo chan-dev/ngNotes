@@ -30,4 +30,15 @@ export class TagsService {
         )
       );
   }
+
+  getTag(id: string): Observable<Tag> {
+    return this.db
+      .doc<Tag>(`${this.collectionName}/${id}`)
+      .valueChanges()
+      .pipe(
+        map(data => {
+          return { id, ...data };
+        })
+      );
+  }
 }

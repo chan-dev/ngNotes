@@ -9,6 +9,7 @@ import {
   filter,
   withLatestFrom,
   mergeMap,
+  switchMap,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -20,8 +21,11 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CreateNoteFormComponent } from '../../containers/create-note-form/create-note-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
-import { getTags } from './notes.selectors';
+import { getTags, getFilteredNotes } from './notes.selectors';
 import { DeleteNoteConfirmComponent } from '../../containers/delete-note-confirm/delete-note-confirm.component';
+import { UpdateNoteFormComponent } from '../../containers/update-note-form/update-note-form.component';
+import { getSidenavSelectedMenu } from '../sidenav/sidenav.selectors';
+import { SidenavMenus } from '../sidenav';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {
@@ -55,6 +59,13 @@ export class NotesEffects {
     notesActions.createNoteError,
     notesActions.updateNoteError,
     notesActions.softDeleteNoteError,
+  ];
+
+  private menuActions = [
+    sidenavActions.selectNotesMenu,
+    sidenavActions.selectFavoritesMenu,
+    sidenavActions.selectSharedMenu,
+    sidenavActions.selectTrashMenu,
   ];
 
   constructor(
@@ -270,5 +281,45 @@ export class NotesEffects {
         })
       ),
     { dispatch: false }
+  );
+
+  selectMenu$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(...this.menuActions),
+      switchMap(action =>
+        of(action).pipe(
+          withLatestFrom(this.store.select(getFilteredNotes)),
+          map(([_, note]) => note[0])
+        )
+      ),
+      // filter(note => !!note),
+      // TODO: set the correct id
+      map(note => notesActions.selectNoteWithTags({ id: note?.id }))
+    )
+  );
+
+  selectNote$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.selectNoteWithTags),
+      // filter(action => !!action.id),
+      switchMap(action =>
+        of(action).pipe(
+          withLatestFrom(this.store.select(getSidenavSelectedMenu)),
+          map(([{ id }, selectedMenu]) => ({ id, selectedMenu }))
+        )
+      ),
+      switchMap(({ id, selectedMenu }) => {
+        const note$ =
+          selectedMenu === SidenavMenus.Shared
+            ? this.notesService.getSharedNoteWithTags(id)
+            : this.notesService.getNoteWithTags(id);
+        return note$.pipe(
+          map(note => notesActions.selectNoteWithTagsSuccess({ note })),
+          catchError(error =>
+            of(notesActions.selectNoteWithTagsError({ error: error.String() }))
+          )
+        );
+      })
+    )
   );
 }

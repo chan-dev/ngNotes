@@ -65,14 +65,12 @@ export class SidenavContainerComponent {
   }
 
   setSelectedNote(id: string) {
-    this.store.dispatch(noteActions.selectNote({ id }));
+    this.store.dispatch(noteActions.selectNoteWithTags({ id }));
   }
 
   setSelectedMenu(menu: string) {
     const selectedMenuAction = this.getSelectedAction(menu);
     this.store.dispatch(selectedMenuAction());
-    // TODO: find a way to not dispatch 2 actions
-    this.store.dispatch(noteActions.selectNote({ id: null }));
   }
 
   setFilter(filter: string) {

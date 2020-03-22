@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, mergeMap, take, toArray } from 'rxjs/operators';
+import { map, mergeMap, take, toArray, switchMap, tap } from 'rxjs/operators';
 
-import { Note, NoteFormData, Tag } from '../types/note';
-import { Observable, from, of } from 'rxjs';
+import { Note, NoteFormData, Tag, NoteWithFetchedTags } from '../types/note';
+import { Observable, from } from 'rxjs';
 import difference from 'lodash-es/difference';
+import { TagsService } from './tags.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotesService {
   private collectionName = '/notes';
   private userId = 'rxBjk2snBo67SYtlQE1Z';
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private tagsService: TagsService) {}
 
   getNotes(): Observable<Note[]> {
     return this.db
@@ -31,7 +32,6 @@ export class NotesService {
   }
 
   getSharedNotes(): Observable<Note[]> {
-    const collection = '/shared_notes';
     // TODO: replace with logged user's id
     // const userId = 'Vs7QmX0Wds9op2zzxMYn';
     return this.db
@@ -58,6 +58,55 @@ export class NotesService {
           )
         )
       );
+  }
+
+  getNoteWithTags(id: string): Observable<NoteWithFetchedTags> {
+    return this.db
+      .doc(`${this.collectionName}/${id}`)
+      .valueChanges()
+      .pipe(
+        mergeMap((note: Note) => {
+          const { tags, ...noteInfo } = note;
+          const tagIds = Object.keys(tags);
+
+          return from(tagIds).pipe(
+            mergeMap(tagId =>
+              this.tagsService
+                .getTag(tagId)
+                .pipe(map((tag: Tag) => ({ id: tagId, ...tag })))
+            ),
+            // call take to complete the observable since toArray will
+            // only execute if the observable is completed
+            take(tagIds.length),
+            // instead of emitting each value, emit them as an array
+            toArray(),
+            map((noteTags: Tag[]) => ({ id, ...noteInfo, tags: noteTags }))
+          );
+        })
+      );
+  }
+
+  getSharedNoteWithTags(id: string) {
+    return this.db
+      .doc(`shared_notes/${this.userId}`)
+      .valueChanges()
+      .pipe(
+        map((sharedNotes: { notes: { [id: string]: boolean } }) => {
+          const sharedNoteIds = sharedNotes
+            ? Object.keys(sharedNotes.notes)
+            : [];
+          return sharedNoteIds.find(sharedNoteId => sharedNoteId === id);
+        }),
+        switchMap(sharedNoteId => this.getNoteWithTags(sharedNoteId))
+      );
+  }
+
+  getNotesByTags(): Observable<any> {
+    const collection = '/notes';
+    const tagId = '6VYCXGWUCshO8WGSNdLL';
+    return this.db
+      .collection(`${collection}`, ref => ref.where(`tag.${tagId}`, '>=', ''))
+      .valueChanges();
   }
 
   /**

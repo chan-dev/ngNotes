@@ -4,11 +4,14 @@ export interface Note {
   content: string;
   favorite: boolean;
   deleted: boolean;
-  tags?: Tag[];
+  tags?: { [id: string]: boolean };
+  // tags: string[],
   // TODO: add later and remove optional symbol
   date?: string; // must be timestamp
   authorId?: string;
 }
+
+export type NoteWithFetchedTags = Omit<Note, 'tags'> & { tags: Tag[] };
 
 export type NoteFormData = Pick<
   Note,
