@@ -16,12 +16,18 @@ export const getNotesState = createSelector(
 
 export const getAllNotes = createSelector(
   getNotesState,
-  (state: fromNotes.NotesState) => state.items
+  // sort in descending order
+  (state: fromNotes.NotesState) =>
+    state.items.sort((a, b) => Number(b.created_at) - Number(a.created_at))
 );
 
 export const getSharedNotes = createSelector(
   getNotesState,
-  (state: fromNotes.NotesState) => state.sharedItems
+  // sort in descending order
+  (state: fromNotes.NotesState) =>
+    state.sharedItems.sort(
+      (a, b) => Number(b.created_at) - Number(a.created_at)
+    )
 );
 
 export const getFilteredNotes = createSelector(
