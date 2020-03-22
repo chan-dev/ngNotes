@@ -332,6 +332,10 @@ export class NotesEffects {
         )
       ),
       switchMap(({ id, selectedMenu }) => {
+        // if no id specified, no need to do some server requests
+        if (!id) {
+          return of(notesActions.selectNoteWithTagsSuccess({ note: null }));
+        }
         const note$ =
           selectedMenu === SidenavMenus.Shared
             ? this.notesService.getSharedNoteWithTags(id)
@@ -339,7 +343,7 @@ export class NotesEffects {
         return note$.pipe(
           map(note => notesActions.selectNoteWithTagsSuccess({ note })),
           catchError(error =>
-            of(notesActions.selectNoteWithTagsError({ error: error.String() }))
+            of(notesActions.selectNoteWithTagsError({ error }))
           )
         );
       })
