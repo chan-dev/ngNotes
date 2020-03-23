@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { ChipsModule } from 'primeng/chips';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -15,6 +16,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FontAwesomeModule,
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     SimplebarAngularModule,
     ChipsModule,
     FormsModule,
@@ -25,6 +27,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     CommonModule,
     FontAwesomeModule,
     TooltipModule,
+    BsDatepickerModule,
     ModalModule,
     SimplebarAngularModule,
     ChipsModule,

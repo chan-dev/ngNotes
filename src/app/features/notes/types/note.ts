@@ -5,6 +5,7 @@ export interface Note {
   favorite: boolean;
   deleted: boolean;
   tags: { [id: string]: boolean };
+  schedule: number;
   created_at: number;
   updated_at: number;
   authorId: string;
@@ -12,7 +13,10 @@ export interface Note {
 
 export type NoteWithFetchedTags = Omit<Note, 'tags'> & { tags: Tag[] };
 
-export type NoteFormData = Pick<Note, 'title' | 'content' | 'authorId'> & {
+export type NoteFormData = Pick<
+  Note,
+  'title' | 'content' | 'authorId' | 'schedule'
+> & {
   tags: string[];
 };
 

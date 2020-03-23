@@ -1,7 +1,16 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import {
+  BsDatepickerDirective,
+  BsDatepickerConfig,
+} from 'ngx-bootstrap/datepicker';
 
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 
@@ -17,6 +26,19 @@ export class CreateNoteFormComponent {
   noteForm: FormGroup;
   tags: string[];
 
+  datepickerConfig: Partial<BsDatepickerConfig> = {
+    adaptivePosition: true,
+    minDate: new Date(),
+  };
+
+  @ViewChild(BsDatepickerDirective, { static: false })
+  datepicker: BsDatepickerDirective;
+
+  @HostListener('window:scroll')
+  onScrollEvent() {
+    this.datepicker.hide();
+  }
+
   constructor(
     private fb: FormBuilder,
     private bsModalRef: BsModalRef,
@@ -25,6 +47,7 @@ export class CreateNoteFormComponent {
     this.noteForm = this.fb.group({
       title: ['', Validators.required],
       content: ['', Validators.required],
+      schedule: ['', Validators.required],
       tags: [''],
     });
   }
@@ -39,14 +62,17 @@ export class CreateNoteFormComponent {
   }
 
   saveNote() {
-    const { title, content, tags } = this.noteForm.value;
+    const { title, content, tags, schedule } = this.noteForm.value;
     if (this.noteForm.valid) {
+      console.log({ schedule });
       this.store.dispatch(
         noteActions.createNote({
           note: {
             title,
             content,
             tags,
+            // convert dates to timestamp
+            schedule: +schedule,
             authorId: 'rxBjk2snBo67SYtlQE1Z',
           },
         })
@@ -65,6 +91,10 @@ export class CreateNoteFormComponent {
 
   get isContentInvalid() {
     return this.isFieldValid('content');
+  }
+
+  get isScheduleInvalid() {
+    return this.isFieldValid('schedule');
   }
 
   // TODO: add to a abstract class that form modal will inherit

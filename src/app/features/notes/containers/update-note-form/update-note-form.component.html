@@ -39,6 +39,21 @@
       </div>
     </div>
     <div class="form-group">
+      <label for="schedule">Schedule</label>
+      <input
+        formControlName="schedule"
+        type="text"
+        placeholder="Choose a schedule"
+        class="form-control"
+        bsDatepicker
+        [bsConfig]="datepickerConfig"
+        [ngClass]="{ 'is-invalid': isScheduleInvalid }"
+      />
+      <div class="invalid-feedback" *ngIf="isScheduleInvalid">
+        schedule is required
+      </div>
+    </div>
+    <div class="form-group">
       <label for="tags">Tags</label>
       <p-chips
         formControlName="tags"

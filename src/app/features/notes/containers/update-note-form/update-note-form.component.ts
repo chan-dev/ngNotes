@@ -1,10 +1,20 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  OnInit,
+  ViewChild,
+  HostListener,
+} from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import {
+  BsDatepickerDirective,
+  BsDatepickerConfig,
+} from 'ngx-bootstrap/datepicker';
 
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
-import { Note, NoteWithFetchedTags } from '../../types/note';
+import { NoteWithFetchedTags } from '../../types/note';
 
 @Component({
   selector: 'app-update-note-form',
@@ -19,6 +29,19 @@ export class UpdateNoteFormComponent implements OnInit {
   note: NoteWithFetchedTags; // will be filled once we opened the modal
   tags: string;
 
+  datepickerConfig: Partial<BsDatepickerConfig> = {
+    adaptivePosition: true,
+    minDate: new Date(),
+  };
+
+  @ViewChild(BsDatepickerDirective, { static: false })
+  datepicker: BsDatepickerDirective;
+
+  @HostListener('window:scroll')
+  onScrollEvent() {
+    this.datepicker.hide();
+  }
+
   constructor(
     private fb: FormBuilder,
     private bsModalRef: BsModalRef,
@@ -27,15 +50,18 @@ export class UpdateNoteFormComponent implements OnInit {
     this.noteForm = this.fb.group({
       title: ['', Validators.required],
       content: ['', Validators.required],
+      schedule: ['', Validators.required],
       tags: [],
     });
   }
 
   ngOnInit() {
-    const { title, content, tags } = this.note;
+    const { title, content, tags, schedule } = this.note;
     this.noteForm.setValue({
       title,
       content,
+      // date-picker requires a date value,
+      schedule: new Date(schedule),
       tags: (tags && tags.map(tag => tag.name)) || [],
     });
   }
@@ -50,7 +76,7 @@ export class UpdateNoteFormComponent implements OnInit {
   }
 
   updateNote() {
-    const { title, content, tags } = this.noteForm.value;
+    const { title, content, tags, schedule } = this.noteForm.value;
     if (this.noteForm.valid) {
       this.store.dispatch(
         noteActions.updateNote({
@@ -59,6 +85,8 @@ export class UpdateNoteFormComponent implements OnInit {
             title,
             content,
             tags,
+            // convert dates to timestamp
+            schedule: +schedule,
             authorId: 'rxBjk2snBo67SYtlQE1Z',
           },
         })
@@ -77,6 +105,10 @@ export class UpdateNoteFormComponent implements OnInit {
 
   get isContentInvalid() {
     return this.isFieldValid('content');
+  }
+
+  get isScheduleInvalid() {
+    return this.isFieldValid('schedule');
   }
 
   // TODO: add to a abstract class that form modal will inherit
