@@ -3,10 +3,14 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actions';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
-import { getSidenavIsVisible } from '../../state/sidenav/sidenav.selectors';
+import {
+  getSidenavIsVisible,
+  getSidenavSelectedMenu,
+} from '../../state/sidenav/sidenav.selectors';
 
-import { Note, NoteWithFetchedTags } from '../../types/note';
+import { NoteWithFetchedTags } from '../../types/note';
 import { getSelectedNoteWithTags } from '../../state/notes/notes.selectors';
+import { SidenavMenus } from '../../state/sidenav/sidenav.state';
 
 @Component({
   selector: 'app-current-note-container',
@@ -16,11 +20,13 @@ import { getSelectedNoteWithTags } from '../../state/notes/notes.selectors';
 export class CurrentNoteContainerComponent implements OnInit {
   selectedNoteTitle$: Observable<string>;
   selectedNote$: Observable<NoteWithFetchedTags>;
+  selectedMenu$: Observable<SidenavMenus>;
   sidenavVisible$: Observable<boolean>;
 
   constructor(private store: Store<any>) {
     this.selectedNote$ = this.store.select(getSelectedNoteWithTags);
     this.sidenavVisible$ = this.store.select(getSidenavIsVisible);
+    this.selectedMenu$ = this.store.select(getSidenavSelectedMenu);
   }
 
   ngOnInit() {}

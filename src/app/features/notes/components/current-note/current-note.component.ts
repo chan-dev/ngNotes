@@ -6,6 +6,8 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { SidenavMenus } from '../../state/sidenav/sidenav.state';
+
 @Component({
   selector: 'app-current-note',
   templateUrl: './current-note.component.html',
@@ -13,6 +15,7 @@ import {
 })
 export class CurrentNoteComponent implements OnInit {
   @Input() note: NoteWithFetchedTags;
+  @Input() selectedMenu: SidenavMenus;
   @Output() edit = new EventEmitter<NoteWithFetchedTags>();
   @Output() share = new EventEmitter<string>();
   @Output() delete = new EventEmitter<string>();
@@ -20,6 +23,8 @@ export class CurrentNoteComponent implements OnInit {
   editLogo = faEdit;
   shareLogo = faShareSquare;
   deleteLogo = faTrashAlt;
+
+  menus = SidenavMenus;
 
   constructor() {}
 
