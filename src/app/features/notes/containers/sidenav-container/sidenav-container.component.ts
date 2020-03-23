@@ -34,17 +34,18 @@ export class SidenavContainerComponent {
       icon: faStickyNote,
     },
     {
-      menu: SidenavMenus.Favorites,
-      icon: faStar,
-    },
-    {
       menu: SidenavMenus.Shared,
       icon: faShareSquare,
     },
-    {
-      menu: SidenavMenus.Trash,
-      icon: faTrashAlt,
-    },
+    // TODO: pending feature
+    // {
+    //   menu: SidenavMenus.Favorites,
+    //   icon: faStar,
+    // },
+    // {
+    //   menu: SidenavMenus.Trash,
+    //   icon: faTrashAlt,
+    // },
   ];
 
   notes$: Observable<Note[]>;
