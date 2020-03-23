@@ -213,7 +213,7 @@ export class NotesService {
       updated_at: +Date.now(),
     };
 
-    batch.set(currentNoteRef, currentNoteData, { merge: false });
+    batch.update(currentNoteRef, currentNoteData);
 
     return batch.commit().then(() => {
       return {
