@@ -14,7 +14,7 @@ import {
 } from 'ngx-bootstrap/datepicker';
 
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
-import { NoteWithFetchedTags } from '../../types/note';
+import { NoteWithFetchedTags, Tag } from '../../types/note';
 
 @Component({
   selector: 'app-update-note-form',
@@ -27,7 +27,11 @@ import { NoteWithFetchedTags } from '../../types/note';
 export class UpdateNoteFormComponent implements OnInit {
   noteForm: FormGroup;
   note: NoteWithFetchedTags; // will be filled once we opened the modal
-  tags: string;
+
+  // NOTE: allTags will be filled the moment the modal is opened, through
+  // initialState in bootstrap modal component
+  allTags: Tag[];
+  tagNames: string[];
 
   datepickerConfig: Partial<BsDatepickerConfig> = {
     adaptivePosition: true,
@@ -92,6 +96,28 @@ export class UpdateNoteFormComponent implements OnInit {
         })
       );
       this.bsModalRef.hide();
+    }
+  }
+
+  search(event) {
+    this.tagNames = this.allTags
+      .map(tag => tag.name)
+      .filter(name => name.startsWith(event.query));
+  }
+
+  addOnEnterOrTab(event: KeyboardEvent) {
+    const { target: input, key } = event as any;
+    const { value } = input;
+
+    if (key === 'Enter' || key === 'Tab') {
+      // make sure that we're not allowing duplicate values
+      const selectedTags = this.controls.tags.value || [];
+      if (value && selectedTags.indexOf(value) === -1) {
+        selectedTags.push(value);
+        this.controls.tags.patchValue(selectedTags);
+      }
+      input.value = '';
+      event.preventDefault();
     }
   }
 

@@ -55,13 +55,15 @@
     </div>
     <div class="form-group">
       <label for="tags">Tags</label>
-      <p-chips
+      <p-autoComplete
         formControlName="tags"
-        [allowDuplicate]="false"
-        [addOnTab]="true"
         placeholder="add tags"
-        aria-describedby="tagsHelpBlock"
-      ></p-chips>
+        [suggestions]="tagNames"
+        (completeMethod)="search($event)"
+        (keydown)="addOnEnterOrTab($event)"
+        [multiple]="true"
+      ></p-autoComplete>
+
       <small id="tagsHelpBlock" class="form-text text-muted">
         Kindly press <kbd>Enter</kbd> or <kbd>Tab</kbd> to enter multiple tags
       </small>

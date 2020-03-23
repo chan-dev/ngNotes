@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { ChipsModule } from 'primeng/chips';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -22,6 +23,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    AutoCompleteModule,
   ],
   exports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    AutoCompleteModule,
   ],
 })
 export class SharedModule {}
