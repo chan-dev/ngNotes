@@ -188,12 +188,21 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(notesActions.openCreateNoteFormModal),
-        tap(() =>
+        switchMap(action =>
+          of(action).pipe(
+            withLatestFrom(this.store.select(getTags)),
+            map(([_, allTags]) => allTags)
+          )
+        ),
+        tap(allTags =>
           this.modalService.show(CreateNoteFormComponent, {
             ignoreBackdropClick: true,
             focus: true,
             keyboard: false,
             class: 'modal-lg',
+            initialState: {
+              allTags,
+            },
           })
         )
       ),
@@ -204,14 +213,21 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(notesActions.openUpdateNoteFormModal),
-        tap(action => {
+        switchMap(action =>
+          of(action).pipe(
+            withLatestFrom(this.store.select(getTags)),
+            map(([{ note }, allTags]) => ({ note, allTags }))
+          )
+        ),
+        tap(({ note, allTags }) => {
           this.modalService.show(UpdateNoteFormComponent, {
             ignoreBackdropClick: true,
             focus: true,
             keyboard: false,
             class: 'modal-lg',
             initialState: {
-              note: action.note,
+              note,
+              allTags,
             },
           });
         })
