@@ -21,6 +21,9 @@ import {
 } from '../../state/sidenav/sidenav.selectors';
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
 import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actions';
+import * as authActions from '@core/state/auth/auth.actions';
+import { User } from '@app/features/auth/types/user';
+import { getUserLoggedIn } from '@core/state/auth/auth.selectors';
 
 @Component({
   selector: 'app-sidenav-container',
@@ -52,6 +55,7 @@ export class SidenavContainerComponent {
   selectedNoteId$: Observable<string | null>;
   selectedMenu$: Observable<SidenavMenus>;
   expandIcons$: Observable<boolean>;
+  user$: Observable<User>;
 
   // TODO: adjust
   scrollbarOptions = {
@@ -63,6 +67,7 @@ export class SidenavContainerComponent {
     this.selectedNoteId$ = this.store.select(getSelectedNoteId);
     this.selectedMenu$ = this.store.select(getSidenavSelectedMenu);
     this.expandIcons$ = this.store.select(getSidenavExpandIcons);
+    this.user$ = this.store.select(getUserLoggedIn);
   }
 
   setSelectedNote(id: string) {
@@ -96,5 +101,9 @@ export class SidenavContainerComponent {
         return sidenavActions.selectSharedMenu;
       }
     }
+  }
+
+  logout() {
+    this.store.dispatch(authActions.logout());
   }
 }

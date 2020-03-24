@@ -1,5 +1,9 @@
 <div class="sidenav d-flex">
   <section class="sidenav__menu-section flex-grow-0">
+    <app-user-display
+      [user]="user$ | async"
+      (logout)="logout()"
+    ></app-user-display>
     <app-sidenav-menus
       [menus]="menuIcons"
       [selectedMenu]="selectedMenu$ | async"

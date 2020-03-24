@@ -1,0 +1,16 @@
+<div class="user-display d-flex flex-column">
+  <div class="user-display__avatar">
+    <img [src]="user.photoURL" alt="user avatar" *ngIf="user.photoURL" />
+    <img
+      src="assets/images/default_avatar.png"
+      alt="user avatar"
+      *ngIf="!user.photoURL"
+    />
+  </div>
+  <button
+    class="user-display__logout-btn btn btn-primary"
+    (click)="logoutUser()"
+  >
+    Logout
+  </button>
+</div>
