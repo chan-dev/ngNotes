@@ -10,14 +10,13 @@ import { TagsService } from './tags.service';
 @Injectable({ providedIn: 'root' })
 export class NotesService {
   private collectionName = '/notes';
-  private userId = 'rxBjk2snBo67SYtlQE1Z';
 
   constructor(private db: AngularFirestore, private tagsService: TagsService) {}
 
-  getNotes(): Observable<Note[]> {
+  getNotes(userId): Observable<Note[]> {
     return this.db
       .collection(this.collectionName, ref =>
-        ref.where('authorId', '==', this.userId)
+        ref.where('authorId', '==', userId)
       )
       .snapshotChanges()
       .pipe(
@@ -31,11 +30,9 @@ export class NotesService {
       );
   }
 
-  getSharedNotes(): Observable<Note[]> {
-    // TODO: replace with logged user's id
-    // const userId = 'Vs7QmX0Wds9op2zzxMYn';
+  getSharedNotes(userId): Observable<Note[]> {
     return this.db
-      .doc(`shared_notes/${this.userId}`)
+      .doc(`shared_notes/${userId}`)
       .valueChanges()
       .pipe(
         map((sharedNotes: { notes: { [id: string]: boolean } }) => {
@@ -86,9 +83,9 @@ export class NotesService {
       );
   }
 
-  getSharedNoteWithTags(id: string) {
+  getSharedNoteWithTags(userId: string, id: string) {
     return this.db
-      .doc(`shared_notes/${this.userId}`)
+      .doc(`shared_notes/${userId}`)
       .valueChanges()
       .pipe(
         map((sharedNotes: { notes: { [id: string]: boolean } }) => {
@@ -114,7 +111,11 @@ export class NotesService {
    * 1. save the tags first if any
    * 2. save note and associate the created tags
    */
-  async saveNote(formData: NoteFormData, allTagsObjectArray: Tag[]) {
+  async saveNote(
+    userId: string,
+    formData: NoteFormData,
+    allTagsObjectArray: Tag[]
+  ) {
     const { tags: selectedTags, ...noteData } = formData;
     const firestore = this.db.firestore;
 
@@ -131,7 +132,7 @@ export class NotesService {
       // save all new tags
       batch.set(newTagRef, {
         name: tag,
-        authorId: formData.authorId,
+        authorId: userId,
       });
       return newTagRef.id;
     });
@@ -159,6 +160,7 @@ export class NotesService {
       created_at: +currentDate,
       updated_at: +currentDate,
       tags: allNoteTagsMap,
+      authorId: userId,
     };
     newNoteRef.set(newNoteData);
 
@@ -170,7 +172,12 @@ export class NotesService {
     });
   }
 
-  async updateNote(id, formData: NoteFormData, allTagsObjectArray: Tag[]) {
+  async updateNote(
+    userId: string,
+    id: string,
+    formData: NoteFormData,
+    allTagsObjectArray: Tag[]
+  ) {
     const { tags: selectedTags, ...noteData } = formData;
     const firestore = this.db.firestore;
 
@@ -188,7 +195,7 @@ export class NotesService {
       // save all new tags
       batch.set(newTagRef, {
         name: tag,
-        authorId: formData.authorId,
+        authorId: userId,
       });
       return newTagRef.id;
     });
@@ -211,6 +218,7 @@ export class NotesService {
       ...noteData,
       tags: allNoteTagsMap,
       updated_at: +Date.now(),
+      authorId: userId,
     };
 
     batch.update(currentNoteRef, currentNoteData);

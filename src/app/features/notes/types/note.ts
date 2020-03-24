@@ -13,10 +13,7 @@ export interface Note {
 
 export type NoteWithFetchedTags = Omit<Note, 'tags'> & { tags: Tag[] };
 
-export type NoteFormData = Pick<
-  Note,
-  'title' | 'content' | 'authorId' | 'schedule'
-> & {
+export type NoteFormData = Pick<Note, 'title' | 'content' | 'schedule'> & {
   tags: string[];
 };
 

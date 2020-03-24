@@ -91,7 +91,6 @@ export class UpdateNoteFormComponent implements OnInit {
             tags,
             // convert dates to timestamp
             schedule: +schedule,
-            authorId: 'rxBjk2snBo67SYtlQE1Z',
           },
         })
       );

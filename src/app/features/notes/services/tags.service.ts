@@ -10,14 +10,13 @@ import { Tag } from '../types/note';
 })
 export class TagsService {
   private collectionName = '/tags';
-  private userId = 'rxBjk2snBo67SYtlQE1Z';
 
   constructor(private db: AngularFirestore) {}
 
-  getTags(): Observable<Tag[]> {
+  getTags(userId): Observable<Tag[]> {
     return this.db
       .collection(this.collectionName, ref =>
-        ref.where('authorId', '==', this.userId)
+        ref.where('authorId', '==', userId)
       )
       .snapshotChanges()
       .pipe(
