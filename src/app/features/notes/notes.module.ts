@@ -25,8 +25,7 @@ import { UserDisplayComponent } from './components/user-display/user-display.com
 const metaReducers = [
   createLocalStorageSyncReducer({
     keys: [{ notes: ['items', 'sharedItems', 'tags'] }],
-    keys: [{ notes: ['items', 'sharedItems'] }],
-    rehydrate: true,
+    rehydrate: false,
   }),
 ];
 
