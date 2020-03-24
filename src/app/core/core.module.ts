@@ -4,10 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@angular/cdk/layout';
 import { QuillModule } from 'ngx-quill';
@@ -17,6 +17,15 @@ import { ToastrModule } from 'ngx-toastr';
 import { environment } from '@environment/environment';
 import { reducers } from './state';
 import { CustomSerializer } from './state/router';
+import { createLocalStorageSyncReducer } from '@shared/helpers/localStorageSync';
+import { AuthEffects } from './state/auth/auth.effects';
+
+const metaReducers = [
+  createLocalStorageSyncReducer({
+    keys: ['auth'],
+    rehydrate: true,
+  }),
+];
 
 @NgModule({
   declarations: [],
@@ -50,12 +59,9 @@ import { CustomSerializer } from './state/router';
       projectId: environment.projectId,
     }),
     AngularFirestoreModule,
-    StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot({
-      // serializer: DefaultRouterStateSerializer,
-      serializer: CustomSerializer,
-    }),
+    AngularFireAuthModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([AuthEffects]),
     environment.production
       ? []
       : StoreDevtoolsModule.instrument({
