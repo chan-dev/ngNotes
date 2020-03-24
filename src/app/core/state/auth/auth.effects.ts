@@ -21,18 +21,20 @@ export class AuthEffects {
       switchMap(_ =>
         from(this.authService.googleSignin()).pipe(
           map(user => authActions.loginSuccess({ user })),
-          catchError(error => of(authActions.loginError({ error })))
+          catchError(error =>
+            of(authActions.loginError({ error: error.toString() }))
+          )
         )
-      )
+      ),
+      tap(() => this.router.navigateByUrl('/notes'))
     )
   );
 
   logout$ = createEffect(
     () =>
       this.action$.pipe(
-        ofType(authActions.logout)
-        // TODO: update later
-        // tap(_ => this.router.navigate(['/auth/login']))
+        ofType(authActions.logout),
+        tap(_ => this.router.navigateByUrl('/auth/login'))
       ),
     { dispatch: false }
   );

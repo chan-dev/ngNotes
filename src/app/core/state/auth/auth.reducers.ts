@@ -13,6 +13,7 @@ export const featureReducer = createReducer(
   on(authActions.login, state => ({
     ...state,
     loading: true,
+    error: null,
   })),
   on(authActions.loginSuccess, (state, { user }) => ({
     ...state,
