@@ -37,11 +37,11 @@ export const updateNoteError = createAction(
 );
 export const softDeleteNote = createAction(
   '[DeleteNoteConfirm component] Soft Delete Note',
-  props<{ id: string }>()
+  props<{ note: NoteWithFetchedTags }>()
 );
 export const softDeleteNoteSuccess = createAction(
   '[Notes Service] Soft Delete Note Success',
-  props<{ id: string }>()
+  props<{ note: Note }>()
 );
 export const softDeleteNoteError = createAction(
   '[Notes Service] Soft Delete Note Error',
@@ -57,7 +57,7 @@ export const openUpdateNoteFormModal = createAction(
 // TODO: rename event source
 export const openDeleteConfirmModal = createAction(
   '[CurrentNoteContainer component] Open Delete Confirm',
-  props<{ id: string }>()
+  props<{ note: NoteWithFetchedTags }>()
 );
 export const openShareNoteFormModal = createAction(
   '[CurrentNoteContainer component] Open ShareNoteFormModal',

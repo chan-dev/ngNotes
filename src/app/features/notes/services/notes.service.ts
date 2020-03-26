@@ -256,10 +256,21 @@ export class NotesService {
     });
   }
 
-  softDeleteNote(id: string) {
-    return this.db.doc(`/notes/${id}`).update({
+  async softDeleteNote(note: NoteWithFetchedTags) {
+    // TODO: remove this once all NoteWithFetchedTags are removed
+    const tags = note.tags.reduce((acc, cur) => {
+      acc[cur.id] = true;
+      return acc;
+    }, {});
+
+    const updatedNote: Note = {
+      ...note,
+      tags,
       deleted: true,
       favorite: false,
-    });
+    };
+    await this.db.doc(`/notes/${note.id}`).update(updatedNote);
+
+    return updatedNote;
   }
 }

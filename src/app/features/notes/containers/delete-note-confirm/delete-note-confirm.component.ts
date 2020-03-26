@@ -3,6 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Store } from '@ngrx/store';
 
 import * as noteActions from '@app/features/notes/state/notes/notes.actions';
+import { NoteWithFetchedTags } from '../../types/note';
 
 @Component({
   selector: 'app-delete-note-confirm',
@@ -10,7 +11,7 @@ import * as noteActions from '@app/features/notes/state/notes/notes.actions';
   styleUrls: ['./delete-note-confirm.component.scss'],
 })
 export class DeleteNoteConfirmComponent implements OnInit {
-  id: string;
+  note: NoteWithFetchedTags;
   confirmed: boolean;
   constructor(private bsModalRef: BsModalRef, private store: Store<any>) {}
 
@@ -22,7 +23,7 @@ export class DeleteNoteConfirmComponent implements OnInit {
 
   confirm() {
     this.confirmed = true;
-    this.store.dispatch(noteActions.softDeleteNote({ id: this.id }));
+    this.store.dispatch(noteActions.softDeleteNote({ note: this.note }));
     this.hideModal();
   }
   decline() {

@@ -69,10 +69,10 @@ const featureReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(notesActions.softDeleteNoteSuccess, (state, { id }) => ({
+  on(notesActions.softDeleteNoteSuccess, (state, { note }) => ({
     ...state,
     // NOTE: we aren't really deleting an item,
-    // items: state.items.filter(item => item.id !== id),
+    items: state.items.map(item => (item.id === note.id ? note : item)),
     loading: false,
     error: null,
   })),

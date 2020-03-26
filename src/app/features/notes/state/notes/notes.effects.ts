@@ -207,13 +207,15 @@ export class NotesEffects {
     this.action$.pipe(
       ofType(notesActions.softDeleteNote),
       exhaustMap(action => {
-        const { id } = action;
+        const { note } = action;
 
         const deleteNoteId$ = defer(() =>
-          from(this.notesService.softDeleteNote(id))
+          from(this.notesService.softDeleteNote(note))
         );
         return deleteNoteId$.pipe(
-          map(() => notesActions.softDeleteNoteSuccess({ id })),
+          map(softDeletedNote =>
+            notesActions.softDeleteNoteSuccess({ note: softDeletedNote })
+          ),
           catchError(error => of(notesActions.softDeleteNoteError({ error })))
         );
       })
@@ -283,7 +285,7 @@ export class NotesEffects {
             class: 'modal-sm',
             // take note that we pass the id of the current note
             // when opening the modal
-            initialState: { id: action.id },
+            initialState: { note: action.note },
           });
         })
       ),

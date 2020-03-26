@@ -18,7 +18,7 @@ export class CurrentNoteComponent implements OnInit {
   @Input() selectedMenu: SidenavMenus;
   @Output() edit = new EventEmitter<NoteWithFetchedTags>();
   @Output() share = new EventEmitter<NoteWithFetchedTags>();
-  @Output() delete = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<NoteWithFetchedTags>();
 
   editLogo = faEdit;
   shareLogo = faShareSquare;
@@ -39,6 +39,6 @@ export class CurrentNoteComponent implements OnInit {
   }
 
   deleteNote() {
-    this.delete.emit(this.note.id);
+    this.delete.emit(this.note);
   }
 }

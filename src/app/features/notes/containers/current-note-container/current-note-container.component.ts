@@ -39,8 +39,8 @@ export class CurrentNoteContainerComponent implements OnInit {
     this.store.dispatch(noteActions.openShareNoteFormModal({ note }));
   }
 
-  delete(id) {
-    this.store.dispatch(noteActions.openDeleteConfirmModal({ id }));
+  delete(note: NoteWithFetchedTags) {
+    this.store.dispatch(noteActions.openDeleteConfirmModal({ note }));
   }
 
   toggleSidenav() {
