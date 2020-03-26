@@ -152,8 +152,8 @@ export class NotesEffects {
   switchToNotesMenuOnSuccessActions$ = createEffect(() =>
     this.action$.pipe(
       ofType(...this.switchToNotesMenuOnSuccessActions),
-      switchMap(_ => {
-        return [sidenavActions.selectNotesMenu()];
+      map(_ => {
+        return sidenavActions.selectNotesMenu();
       })
     )
   );
@@ -393,8 +393,6 @@ export class NotesEffects {
           map(([_, note]) => note[0])
         )
       ),
-      // filter(note => !!note),
-      // TODO: set the correct id
       map(note => notesActions.selectNoteWithTags({ id: note?.id }))
     )
   );
