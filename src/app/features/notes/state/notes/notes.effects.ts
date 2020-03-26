@@ -179,6 +179,25 @@ export class NotesEffects {
     )
   );
 
+  shareNote$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.shareNote),
+      switchMap(action => {
+        const { note, receiverId } = action;
+
+        const sharedNote$ = defer(() =>
+          from(this.notesService.saveSharedNotes(note, receiverId))
+        );
+        return sharedNote$.pipe(
+          map(sharedNote => notesActions.shareNoteSuccess({ sharedNote })),
+          catchError(error =>
+            of(notesActions.shareNoteError({ error: error.toString() }))
+          )
+        );
+      })
+    )
+  );
+
   softDeleteNote$ = createEffect(() =>
     this.action$.pipe(
       ofType(notesActions.softDeleteNote),

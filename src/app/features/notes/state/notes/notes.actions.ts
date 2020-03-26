@@ -61,6 +61,10 @@ export const openDeleteConfirmModal = createAction(
   '[CurrentNoteContainer component] Open Delete Confirm',
   props<{ id: string }>()
 );
+export const openShareNoteFormModal = createAction(
+  '[CurrentNoteContainer component] Open ShareNoteFormModal',
+  props<{ note: NoteWithFetchedTags }>()
+);
 // TODO: should we move it to AppEffects since it's global
 export const openLoadingSpinner = createAction('[App] Open Loading Spinner');
 export const closeLoadingSpinner = createAction('[App] Close Loading Spinner');
@@ -89,3 +93,17 @@ export const selectNoteWithTagsError = createAction(
 // TODO: move to AppEffects since it's global
 export const showToasterSuccess = createAction('[App] Show Toaster Succcess');
 export const showToasterError = createAction('[App] Show Toaster Error');
+
+export const shareNote = createAction(
+  '[Test Component] Share Note',
+  props<{ note: Note; receiverId: string }>()
+);
+export const shareNoteSuccess = createAction(
+  '[Notes Service] Share Note Success',
+  // TODO: add type
+  props<{ sharedNote: Note }>()
+);
+export const shareNoteError = createAction(
+  '[Notes Service] Share Note Error',
+  props<{ error: string }>()
+);

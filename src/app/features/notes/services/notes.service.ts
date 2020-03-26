@@ -57,6 +57,20 @@ export class NotesService {
       );
   }
 
+  async saveSharedNotes(note: Note, receiverId: string) {
+    await this.db.doc(`/shared_notes/${receiverId}`).set(
+      {
+        senderId: note.authorId,
+        notes: {
+          [note.id]: true,
+        },
+      },
+      { merge: true }
+    );
+
+    return note;
+  }
+
   getNoteWithTags(id: string): Observable<NoteWithFetchedTags> {
     return this.db
       .doc(`${this.collectionName}/${id}`)

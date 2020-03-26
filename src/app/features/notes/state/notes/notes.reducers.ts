@@ -99,6 +99,24 @@ const featureReducer = createReducer(
     selectedNoteId: null,
     error,
     loading: false,
+  })),
+  on(notesActions.shareNote, state => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(notesActions.shareNoteSuccess, (state, { sharedNote }) => ({
+    ...state,
+    sharedItems: state.sharedItems.map(item =>
+      item.id === sharedNote.id ? sharedNote : item
+    ),
+    loading: false,
+    error: null,
+  })),
+  on(notesActions.shareNoteError, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
 
