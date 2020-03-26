@@ -10,6 +10,7 @@ import {
   withLatestFrom,
   mergeMap,
   switchMap,
+  take,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -109,6 +110,7 @@ export class NotesEffects {
           this.notesService.getSharedNotes(user.uid),
           this.tagsService.getTags(user.uid),
         ]).pipe(
+          take(1),
           switchMap(([notes, sharedNotes, tags]) => {
             return [
               notesActions.fetchNotesSuccess({

@@ -26,7 +26,8 @@ export class NotesService {
             const id = a.payload.doc.id;
             return { id, ...data };
           })
-        )
+        ),
+        take(1)
       );
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { Tag } from '../types/note';
 
@@ -26,7 +26,8 @@ export class TagsService {
             const id = a.payload.doc.id;
             return { id, ...data };
           })
-        )
+        ),
+        take(1)
       );
   }
 
