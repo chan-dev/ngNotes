@@ -96,7 +96,7 @@ export const showToasterError = createAction('[App] Show Toaster Error');
 
 export const shareNote = createAction(
   '[Test Component] Share Note',
-  props<{ note: Note; receiverId: string }>()
+  props<{ note: NoteWithFetchedTags; receiverId: string }>()
 );
 export const shareNoteSuccess = createAction(
   '[Notes Service] Share Note Success',

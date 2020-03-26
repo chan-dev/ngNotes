@@ -34,7 +34,11 @@ export class CurrentNoteContainerComponent implements OnInit {
   edit(note: NoteWithFetchedTags) {
     this.store.dispatch(noteActions.openUpdateNoteFormModal({ note }));
   }
-  share(id) {}
+
+  share(note: NoteWithFetchedTags) {
+    this.store.dispatch(noteActions.openShareNoteFormModal({ note }));
+  }
+
   delete(id) {
     this.store.dispatch(noteActions.openDeleteConfirmModal({ id }));
   }

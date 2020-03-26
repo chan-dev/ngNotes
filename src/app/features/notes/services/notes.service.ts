@@ -57,7 +57,9 @@ export class NotesService {
       );
   }
 
-  async saveSharedNotes(note: Note, receiverId: string) {
+  async saveSharedNotes(note: NoteWithFetchedTags, receiverId: string) {
+    // TODO: use an id instead of a note
+    // fetch the note first to get info from the note
     await this.db.doc(`/shared_notes/${receiverId}`).set(
       {
         senderId: note.authorId,
@@ -68,7 +70,16 @@ export class NotesService {
       { merge: true }
     );
 
-    return note;
+    // TODO: remove this once all NoteWithFetchedTags are removed
+    const tags = note.tags.reduce((acc, cur) => {
+      acc[cur.id] = true;
+      return acc;
+    }, {});
+
+    return {
+      ...note,
+      tags,
+    };
   }
 
   getNoteWithTags(id: string): Observable<NoteWithFetchedTags> {

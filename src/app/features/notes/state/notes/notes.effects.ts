@@ -28,6 +28,8 @@ import { getSidenavSelectedMenu } from '../sidenav/sidenav.selectors';
 import * as authActions from '@core/state/auth/auth.actions';
 import { SidenavMenus } from '../sidenav';
 import { getUserLoggedIn } from '@core/state/auth/auth.selectors';
+import { UsersService } from '../../services/users.service';
+import { ShareNoteFormComponent } from '../../containers/share-note-form/share-note-form.component';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {
@@ -55,12 +57,14 @@ export class NotesEffects {
     notesActions.createNoteSuccess,
     notesActions.updateNoteSuccess,
     notesActions.softDeleteNoteSuccess,
+    notesActions.shareNoteSuccess,
   ];
 
   private errorToasterActions = [
     notesActions.createNoteError,
     notesActions.updateNoteError,
     notesActions.softDeleteNoteError,
+    notesActions.shareNoteError,
   ];
 
   private menuActions = [
@@ -82,7 +86,8 @@ export class NotesEffects {
     private notesService: NotesService,
     private modalService: BsModalService,
     private tagsService: TagsService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private usersService: UsersService
   ) {}
 
   // during the navigation to /notes, dispatch the load action
@@ -285,11 +290,35 @@ export class NotesEffects {
     { dispatch: false }
   );
 
+  openShareNoteModal$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(notesActions.openShareNoteFormModal),
+        tap(() => console.log('opening shared modal')),
+        switchMap(action =>
+          combineLatest([of(action), this.usersService.getUsers()]).pipe(
+            tap(([{ note }, users]) =>
+              this.modalService.show(ShareNoteFormComponent, {
+                ignoreBackdropClick: true,
+                focus: true,
+                keyboard: false,
+                class: 'modal-sm',
+                initialState: {
+                  note,
+                  users,
+                },
+              })
+            )
+          )
+        )
+      ),
+    { dispatch: false }
+  );
+
   openLoadingSpinner$ = createEffect(
     () =>
       this.action$.pipe(
         ofType(...this.openSpinnerActions),
-        tap(() => this.store.dispatch(notesActions.openLoadingSpinner())),
         tap(() => this.spinnerService.show())
       ),
     { dispatch: false }
@@ -320,6 +349,8 @@ export class NotesEffects {
             message = 'New note created';
           } else if (type === notesActions.updateNoteSuccess.type) {
             message = 'Note updated';
+          } else if (type === notesActions.shareNoteSuccess.type) {
+            message = 'Note shared';
           } else {
             message = 'Note deleted';
           }
@@ -342,6 +373,8 @@ export class NotesEffects {
             message = 'Create note failed';
           } else if (type === notesActions.updateNoteError.type) {
             message = 'Updating note failed';
+          } else if (type === notesActions.shareNoteError.type) {
+            message = 'Sharing note failed';
           } else {
             message = 'Deleting note failed';
           }

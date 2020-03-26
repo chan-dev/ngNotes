@@ -1,0 +1,12 @@
+.ui-autocomplete.ui-widget {
+  width: 100% !important;
+}
+
+.ui-inputtext.ui-widget {
+  width: 100% !important;
+
+  .is-invalid & {
+    border: 1px solid var(--red);
+    box-shadow: none !important;
+  }
+}
