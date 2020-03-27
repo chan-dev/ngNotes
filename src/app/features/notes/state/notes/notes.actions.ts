@@ -103,6 +103,10 @@ export const shareNoteError = createAction(
   '[Notes Service] Share Note Error',
   props<{ error: string }>()
 );
+export const syncSharedNote = createAction(
+  '[AngularFire StateChange API] Sync Shared Note',
+  props<{ updatedNotes: Note[] }>()
+);
 
 export const fetchTags = createAction(
   '[Notes Service] Fetch Tags',

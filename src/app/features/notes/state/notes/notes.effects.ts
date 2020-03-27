@@ -429,4 +429,19 @@ export class NotesEffects {
       ),
     { dispatch: false }
   );
+  syncSharedNote$ = createEffect(() =>
+    this.notesService.getNotesStateChanges().pipe(
+      tap(notes => console.log({ updatedNotes: notes })),
+      map(notes =>
+        notesActions.syncSharedNote({
+          updatedNotes: notes,
+        })
+      ),
+      tap(() => {
+        //     // this.store.dispatch(sidenavActions.selectSharedMenu());
+        //     this.store.dispatch(notesActions.selectNoteWithTags({ id: null }));
+        //   if (notes.updatedNotes[0].deleted) {
+      })
+    )
+  );
 }

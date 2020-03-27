@@ -114,6 +114,15 @@ const featureReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(notesActions.syncSharedNote, (state, { updatedNotes }) => ({
+    ...state,
+    sharedItems: state.sharedItems.map(item => {
+      const match = updatedNotes.find(
+        updatedNote => updatedNote.id === item.id
+      );
+      return match ? { ...item, ...match } : item;
+    }),
   }))
 );
 

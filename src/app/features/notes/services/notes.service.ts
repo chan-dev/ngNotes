@@ -6,6 +6,7 @@ import { Note, NoteFormData, Tag, NoteWithFetchedTags } from '../types/note';
 import { Observable, from } from 'rxjs';
 import difference from 'lodash-es/difference';
 import { TagsService } from './tags.service';
+import { mapSnapshotChangesCollection } from '@shared/helpers/firebase-helpers';
 
 @Injectable({ providedIn: 'root' })
 export class NotesService {
@@ -28,6 +29,18 @@ export class NotesService {
           })
         ),
         take(1)
+      );
+  }
+
+  // used to query firebase for any changes to the /notes
+  // collection, then we'll use it to sync notes between users
+  getNotesStateChanges() {
+    return this.db
+      .collection<Note>('/notes')
+      .stateChanges(['modified', 'removed'])
+      .pipe(
+        tap(action => console.log({ action })),
+        map(mapSnapshotChangesCollection)
       );
   }
 
