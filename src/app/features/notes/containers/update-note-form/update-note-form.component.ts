@@ -86,9 +86,11 @@ export class UpdateNoteFormComponent implements OnInit {
         noteActions.updateNote({
           id: this.note.id,
           note: {
+            ...this.note,
             title,
             content,
             tags,
+
             // convert dates to timestamp
             schedule: +schedule,
           },
