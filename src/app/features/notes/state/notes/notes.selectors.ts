@@ -41,10 +41,12 @@ export const getFilteredNotes = createSelector(
     selectedMenu: SidenavMenus,
     filter: string
   ) => {
-    return selectedMenu === SidenavMenus.Shared
-      ? sharedNotes
-      : notes
-          .filter(note => {
+    const filteredNotes =
+      selectedMenu === SidenavMenus.Shared
+        ? sharedNotes.filter(note => {
+            return !note.deleted;
+          })
+        : notes.filter(note => {
             if (selectedMenu === SidenavMenus.Favorites) {
               return note.favorite && !note.deleted;
             }
@@ -53,11 +55,12 @@ export const getFilteredNotes = createSelector(
             }
 
             return !note.deleted;
-          })
-          .filter(note => {
-            filter = filter.toLowerCase();
-            return note.title.toLowerCase().startsWith(filter);
           });
+
+    return filteredNotes.filter(note => {
+      filter = filter.toLowerCase();
+      return note.title.toLowerCase().startsWith(filter);
+    });
   }
 );
 
