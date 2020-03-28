@@ -22,6 +22,10 @@ export const getTags = createSelector(
   getNotesState,
   (state: fromNotes.NotesState) => state.tags
 );
+export const getSharedTags = createSelector(
+  getNotesState,
+  (state: fromNotes.NotesState) => state.sharedTags
+);
 
 export const getAllNotes = createSelector(
   getNotesState,
@@ -78,10 +82,13 @@ export const getFilteredNotes = createSelector(
 export const getFilteredNotesWithTags = createSelector(
   getFilteredNotes,
   getTags,
-  (notes: Note[], tags: Tag[]) => {
+  getSharedTags,
+  getSidenavSelectedMenu,
+  (notes: Note[], tags: Tag[], sharedTags: Tag[], menu: SidenavMenus) => {
     return notes.map(note => {
       const tagIds = Object.keys(note.tags);
-      const noteTags = tagIds.map(id => tags.find(tag => tag.id === id));
+      const allTags = SidenavMenus.Shared === menu ? sharedTags : tags;
+      const noteTags = tagIds.map(id => allTags.find(tag => tag.id === id));
       return {
         ...note,
         tags: noteTags,

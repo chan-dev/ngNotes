@@ -38,10 +38,7 @@ export class NotesService {
     return this.db
       .collection<Note>('/notes')
       .stateChanges(['modified', 'removed'])
-      .pipe(
-        tap(action => console.log({ action })),
-        map(mapSnapshotChangesCollection)
-      );
+      .pipe(map(mapSnapshotChangesCollection));
   }
 
   getSharedNotes(userId): Observable<Note[]> {

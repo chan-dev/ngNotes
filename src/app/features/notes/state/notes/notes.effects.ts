@@ -6,41 +6,33 @@ import {
   catchError,
   map,
   tap,
-  filter,
   withLatestFrom,
   mergeMap,
   switchMap,
   take,
   toArray,
+  distinct,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
+import difference from 'lodash-es/difference';
 import * as notesActions from './notes.actions';
 import * as sidenavActions from '../sidenav/sidenav.actions';
 import { NotesService } from '../../services/notes.service';
-import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CreateNoteFormComponent } from '../../containers/create-note-form/create-note-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
-import {
-  getTags,
-  getFilteredNotes,
-  getFilteredNotesWithTags,
-} from './notes.selectors';
+import { getTags, getFilteredNotes, getSharedTags } from './notes.selectors';
 import { DeleteNoteConfirmComponent } from '../../containers/delete-note-confirm/delete-note-confirm.component';
 import { UpdateNoteFormComponent } from '../../containers/update-note-form/update-note-form.component';
-import { getSidenavSelectedMenu } from '../sidenav/sidenav.selectors';
-import * as authActions from '@core/state/auth/auth.actions';
-import { SidenavMenus } from '../sidenav';
 import { getUserLoggedIn } from '@core/state/auth/auth.selectors';
 import { UsersService } from '../../services/users.service';
 import { ShareNoteFormComponent } from '../../containers/share-note-form/share-note-form.component';
+import { Note, Tag } from '../../types/note';
 
 @Injectable({ providedIn: 'root' })
 export class NotesEffects {
-  private pathToCheck = '/notes';
-
   private openSpinnerActions = [
     notesActions.fetchNotes,
     notesActions.createNote,
@@ -103,25 +95,31 @@ export class NotesEffects {
       switchMap(action =>
         of(action).pipe(withLatestFrom(this.store.select(getUserLoggedIn)))
       ),
-      switchMap(([action, user]) =>
+      switchMap(([, user]) =>
         combineLatest([
           this.notesService.getNotes(user.uid),
           this.notesService.getSharedNotes(user.uid),
           this.tagsService.getTags(user.uid),
         ]).pipe(
-          tap(() => console.log('fetch notes effect executes again')),
-          // take(1),
           switchMap(([notes, sharedNotes, tags]) => {
-            return [
-              notesActions.fetchNotesSuccess({
-                items: notes,
-                sharedItems: sharedNotes,
-                tags,
-              }),
-              sidenavActions.selectNotesMenu(),
-            ];
+            return of(sharedNotes).pipe(
+              this.fetchSharedNoteTags(notes),
+              switchMap(sharedTags => {
+                return [
+                  notesActions.fetchNotesSuccess({
+                    items: notes,
+                    sharedItems: sharedNotes,
+                    tags,
+                    sharedTags,
+                  }),
+                  sidenavActions.selectNotesMenu(),
+                ];
+              })
+            );
           }),
-          catchError(error => of(notesActions.fetchNotesError({ error })))
+          catchError(error =>
+            of(notesActions.fetchNotesError({ error: error.toString() }))
+          )
         )
       )
     )
@@ -169,6 +167,58 @@ export class NotesEffects {
             map(tags => notesActions.fetchTagsSuccess({ tags })),
             catchError(error => of(notesActions.fetchTagsError({ error })))
           );
+      })
+    )
+  );
+
+  fetchCreatedTagsOnUpdate$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.updateNoteSuccess),
+      switchMap(action =>
+        of(action).pipe(withLatestFrom(this.store.select(getTags)))
+      ),
+      switchMap(([{ note }, tags]) => {
+        const noteTagsIds = Object.keys(note.tags);
+        const currentTagsIds = tags.map(tag => tag.id);
+        const newTagsIds: string[] = difference(noteTagsIds, currentTagsIds);
+
+        return from(newTagsIds)
+          .pipe(
+            mergeMap(tagId => this.tagsService.getTag(tagId)),
+            take(newTagsIds.length),
+            toArray()
+          )
+          .pipe(
+            map(newTags => notesActions.fetchTagsSuccess({ tags: newTags })),
+            catchError(error => of(notesActions.fetchTagsError({ error })))
+          );
+      })
+    )
+  );
+
+  fetchSharedTagsOnSync$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.syncSharedNote),
+      switchMap(action =>
+        of(action).pipe(withLatestFrom(this.store.select(getSharedTags)))
+      ),
+      switchMap(([{ updatedNotes }, tags]) => {
+        return of(updatedNotes).pipe(
+          this.fetchSharedNoteTags(updatedNotes),
+          map(sharedTags => {
+            const sharedTagIds = sharedTags.map(tag => tag.id);
+            const currentTagsIds = tags.map(tag => tag.id);
+            const newSharedTags: Tag[] = difference(
+              sharedTagIds,
+              currentTagsIds
+            ).map(id => sharedTags.find(tag => tag.id === id));
+
+            return notesActions.fetchSharedTagsSuccess({
+              sharedTags: newSharedTags,
+            });
+          }),
+          catchError(error => of(notesActions.fetchSharedTagsError({ error })))
+        );
       })
     )
   );
@@ -429,19 +479,36 @@ export class NotesEffects {
       ),
     { dispatch: false }
   );
+
+  // TODO: fix syching, filter notes from the logged in user
   syncSharedNote$ = createEffect(() =>
     this.notesService.getNotesStateChanges().pipe(
-      tap(notes => console.log({ updatedNotes: notes })),
-      map(notes =>
-        notesActions.syncSharedNote({
-          updatedNotes: notes,
-        })
-      ),
-      tap(() => {
-        //     // this.store.dispatch(sidenavActions.selectSharedMenu());
-        //     this.store.dispatch(notesActions.selectNoteWithTags({ id: null }));
-        //   if (notes.updatedNotes[0].deleted) {
-      })
+      switchMap(modifiedNotes =>
+        of(modifiedNotes).pipe(
+          withLatestFrom(this.store.select(getUserLoggedIn)),
+          map(([notes, user]) =>
+            notesActions.syncSharedNote({
+              // filter any shared notes owned by the current user
+              updatedNotes: notes.filter(note => note.authorId !== user.uid),
+            })
+          )
+        )
+      )
     )
   );
+
+  // reusable pipe
+  private fetchSharedNoteTags = (notes: Note[]) =>
+    switchMap((sharedNotes: Note[]) => {
+      const sharedNoteTagsIds = sharedNotes
+        .map(note => Object.keys(note.tags))
+        .reduce((acc, cur) => [...acc, ...cur], []);
+
+      return from(sharedNoteTagsIds).pipe(
+        distinct(),
+        mergeMap(tagId => this.tagsService.getTag(tagId)),
+        take(sharedNoteTagsIds.length),
+        toArray()
+      );
+    });
 }

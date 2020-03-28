@@ -6,6 +6,7 @@ const initialState: NotesState = {
   items: [],
   sharedItems: [],
   tags: [],
+  sharedTags: [],
   error: null,
   loading: false,
   selectedNoteId: null,
@@ -18,14 +19,18 @@ const featureReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(notesActions.fetchNotesSuccess, (state, { items, sharedItems, tags }) => ({
-    ...state,
-    items,
-    tags,
-    sharedItems,
-    loading: false,
-    error: null,
-  })),
+  on(
+    notesActions.fetchNotesSuccess,
+    (state, { items, sharedItems, tags, sharedTags }) => ({
+      ...state,
+      items,
+      tags,
+      sharedItems,
+      sharedTags,
+      loading: false,
+      error: null,
+    })
+  ),
   on(notesActions.fetchNotesError, (state, { error }) => ({
     ...state,
     error,
@@ -111,6 +116,17 @@ const featureReducer = createReducer(
     error: null,
   })),
   on(notesActions.fetchTagsError, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(notesActions.fetchSharedTagsSuccess, (state, { sharedTags }) => ({
+    ...state,
+    sharedTags: [...state.sharedTags, ...sharedTags],
+    loading: false,
+    error: null,
+  })),
+  on(notesActions.fetchSharedTagsError, (state, { error }) => ({
     ...state,
     loading: false,
     error,

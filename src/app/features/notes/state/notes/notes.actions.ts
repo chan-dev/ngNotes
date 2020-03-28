@@ -4,7 +4,12 @@ import { Note, NoteFormData, Tag, NoteWithFetchedTags } from '../../types/note';
 export const fetchNotes = createAction('[Route Navigation] Fetch Notes');
 export const fetchNotesSuccess = createAction(
   '[Notes Service] Fetch Success',
-  props<{ items: Note[]; sharedItems: Note[]; tags: Tag[] }>()
+  props<{
+    items: Note[];
+    sharedItems: Note[];
+    tags: Tag[];
+    sharedTags: Tag[];
+  }>()
 );
 export const fetchNotesError = createAction(
   '[Notes Service] Fetch Error',
@@ -118,5 +123,17 @@ export const fetchTagsSuccess = createAction(
 );
 export const fetchTagsError = createAction(
   '[Notes Service] Fetch Tags Error',
+  props<{ error: string }>()
+);
+export const fetchSharedTags = createAction(
+  '[Notes Service] Fetch Shared Tags',
+  props<{ tagIds: string[] }>()
+);
+export const fetchSharedTagsSuccess = createAction(
+  '[Notes Service] Fetch Shared Tags Success',
+  props<{ sharedTags: Tag[] }>()
+);
+export const fetchSharedTagsError = createAction(
+  '[Notes Service] Fetch Shared Tags Error',
   props<{ error: string }>()
 );
