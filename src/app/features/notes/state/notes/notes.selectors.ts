@@ -1,17 +1,26 @@
 import { createSelector } from '@ngrx/store';
 import { getNotesFeatureState, NotesFeatureState } from '..';
-import { Note } from '../../types/note';
+import { Note, Tag, NoteWithFetchedTags } from '../../types/note';
 import { SidenavMenus } from '../sidenav/sidenav.state';
 import * as fromNotes from './notes.state';
 import {
   getSidenavSelectedMenu,
   getSidenavSearchFilter,
 } from '../sidenav/sidenav.selectors';
+import { getUserLoggedIn } from '@core/state/auth/auth.selectors';
+
+import { User } from '@app/features/auth/types/user';
 
 // notes selectors
 export const getNotesState = createSelector(
   getNotesFeatureState,
   (state: NotesFeatureState) => state.notes
+);
+
+// tags
+export const getTags = createSelector(
+  getNotesState,
+  (state: fromNotes.NotesState) => state.tags
 );
 
 export const getAllNotes = createSelector(
@@ -24,10 +33,12 @@ export const getAllNotes = createSelector(
 export const getSharedNotes = createSelector(
   getNotesState,
   // sort in descending order
-  (state: fromNotes.NotesState) =>
-    state.sharedItems.sort(
+  (state: fromNotes.NotesState) => {
+    console.log({ sharedNotes: state.sharedItems });
+    return state.sharedItems.sort(
       (a, b) => Number(b.created_at) - Number(a.created_at)
-    )
+    );
+  }
 );
 
 export const getFilteredNotes = createSelector(
@@ -64,6 +75,21 @@ export const getFilteredNotes = createSelector(
   }
 );
 
+export const getFilteredNotesWithTags = createSelector(
+  getFilteredNotes,
+  getTags,
+  (notes: Note[], tags: Tag[]) => {
+    return notes.map(note => {
+      const tagIds = Object.keys(note.tags);
+      const noteTags = tagIds.map(id => tags.find(tag => tag.id === id));
+      return {
+        ...note,
+        tags: noteTags,
+      } as NoteWithFetchedTags;
+    });
+  }
+);
+
 export const getFavoritesNotes = createSelector(getAllNotes, (state: Note[]) =>
   state.filter(item => item.favorite)
 );
@@ -87,9 +113,22 @@ export const getSelectedNoteId = createSelector(
   (state: fromNotes.NotesState) => state.selectedNoteId
 );
 
+export const getOwnedTags = createSelector(
+  getTags,
+  getUserLoggedIn,
+  (tags: Tag[], user: User) => tags.filter(tag => tag.authorId === user.id)
+);
+
 export const getSelectedNoteWithTags = createSelector(
-  getNotesState,
-  (state: fromNotes.NotesState) => state.selectedNote
+  getFilteredNotesWithTags,
+  getSelectedNoteId,
+  // if there's no id, then set the first item as the default
+  (notes: NoteWithFetchedTags[], id: string | null) => {
+    if (id) {
+      return notes.find(note => note.id === id);
+    }
+    return notes[0];
+  }
 );
 
 // TODO: check if this is still needed
@@ -112,10 +151,4 @@ export const getSelectedNote = createSelector(
     }
     return selectedMenu === SidenavMenus.Shared ? sharedNotes[0] : notes[0];
   }
-);
-
-// tags
-export const getTags = createSelector(
-  getNotesState,
-  (state: fromNotes.NotesState) => state.tags
 );

@@ -24,4 +24,5 @@ export type NoteFormData = Partial<Note> & {
 export interface Tag {
   id: string;
   name: string;
+  authorId: string;
 }

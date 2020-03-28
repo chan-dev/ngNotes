@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Note } from '../../types/note';
+import { Note, NoteWithFetchedTags } from '../../types/note';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -8,7 +8,7 @@ import { faStar } from '@fortawesome/free-regular-svg-icons';
   styleUrls: ['./notes-list.component.scss'],
 })
 export class NotesListComponent {
-  @Input() notes: Note[];
+  @Input() notes: NoteWithFetchedTags[];
   @Input() selectedNoteId: string | null;
   @Output() selectNote = new EventEmitter<string>();
 

@@ -7,7 +7,4 @@ export interface NotesState {
   loading: boolean;
   error: string | null;
   selectedNoteId: string | null;
-  // required for displaying the current note and then fetch from server
-  // each corresponding tags
-  selectedNote: NoteWithFetchedTags;
 }

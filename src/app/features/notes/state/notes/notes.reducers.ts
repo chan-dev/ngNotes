@@ -9,7 +9,6 @@ const initialState: NotesState = {
   error: null,
   loading: false,
   selectedNoteId: null,
-  selectedNote: null,
 };
 
 const featureReducer = createReducer(
@@ -81,23 +80,10 @@ const featureReducer = createReducer(
     loading: false,
     error,
   })),
-  on(notesActions.selectNoteWithTags, (state, { id }) => ({
+  on(notesActions.selectNote, (state, { id }) => ({
     ...state,
     selectedNoteId: id,
     error: null,
-    loading: false,
-  })),
-  on(notesActions.selectNoteWithTagsSuccess, (state, { note }) => ({
-    ...state,
-    selectedNote: note,
-    error: null,
-    loading: false,
-  })),
-  on(notesActions.selectNoteWithTagsError, (state, { error }) => ({
-    ...state,
-    selectedNote: null,
-    selectedNoteId: null,
-    error,
     loading: false,
   })),
   on(notesActions.shareNote, state => ({
@@ -114,6 +100,17 @@ const featureReducer = createReducer(
     error: null,
   })),
   on(notesActions.shareNoteError, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(notesActions.fetchTagsSuccess, (state, { tags }) => ({
+    ...state,
+    tags: [...state.tags, ...tags],
+    loading: false,
+    error: null,
+  })),
+  on(notesActions.fetchTagsError, (state, { error }) => ({
     ...state,
     loading: false,
     error,

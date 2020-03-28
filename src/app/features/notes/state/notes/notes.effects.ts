@@ -11,6 +11,7 @@ import {
   mergeMap,
   switchMap,
   take,
+  toArray,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -22,7 +23,11 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CreateNoteFormComponent } from '../../containers/create-note-form/create-note-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
-import { getTags, getFilteredNotes } from './notes.selectors';
+import {
+  getTags,
+  getFilteredNotes,
+  getFilteredNotesWithTags,
+} from './notes.selectors';
 import { DeleteNoteConfirmComponent } from '../../containers/delete-note-confirm/delete-note-confirm.component';
 import { UpdateNoteFormComponent } from '../../containers/update-note-form/update-note-form.component';
 import { getSidenavSelectedMenu } from '../sidenav/sidenav.selectors';
@@ -68,16 +73,16 @@ export class NotesEffects {
     notesActions.shareNoteError,
   ];
 
+  private switchToNotesMenuOnSuccessActions = [
+    notesActions.createNoteSuccess,
+    notesActions.softDeleteNoteSuccess,
+  ];
+
   private menuActions = [
     sidenavActions.selectNotesMenu,
     sidenavActions.selectFavoritesMenu,
     sidenavActions.selectSharedMenu,
     sidenavActions.selectTrashMenu,
-  ];
-
-  private switchToNotesMenuOnSuccessActions = [
-    notesActions.createNoteSuccess,
-    notesActions.softDeleteNoteSuccess,
   ];
 
   constructor(
@@ -98,19 +103,14 @@ export class NotesEffects {
       switchMap(action =>
         of(action).pipe(withLatestFrom(this.store.select(getUserLoggedIn)))
       ),
-      // ofType<RouterNavigationAction>(ROUTER_NAVIGATION),
-      // filter(action => {
-      //   console.log({ action });
-      //   return action.payload.routerState.url.includes(this.pathToCheck);
-      // }),
-      // tap(() => this.store.dispatch(notesActions.fetchNotes())),
       switchMap(([action, user]) =>
         combineLatest([
           this.notesService.getNotes(user.uid),
           this.notesService.getSharedNotes(user.uid),
           this.tagsService.getTags(user.uid),
         ]).pipe(
-          take(1),
+          tap(() => console.log('fetch notes effect executes again')),
+          // take(1),
           switchMap(([notes, sharedNotes, tags]) => {
             return [
               notesActions.fetchNotesSuccess({
@@ -151,12 +151,55 @@ export class NotesEffects {
     )
   );
 
+  // when creating a note, a side effect is it creates tags in firebase
+  // behind the scenes, so we need to intercept it
+  // to update the state on our store
+  fetchCreatedTagsOnCreate$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.createNoteSuccess),
+      switchMap(({ note }) => {
+        const tagIds = Object.keys(note.tags);
+        return from(tagIds)
+          .pipe(
+            mergeMap(tagId => this.tagsService.getTag(tagId)),
+            take(tagIds.length),
+            toArray()
+          )
+          .pipe(
+            map(tags => notesActions.fetchTagsSuccess({ tags })),
+            catchError(error => of(notesActions.fetchTagsError({ error })))
+          );
+      })
+    )
+  );
+
+  setDefaultNoteOnDelete$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(notesActions.softDeleteNoteSuccess),
+      map(_ => notesActions.selectNote({ id: null }))
+    )
+  );
+
+  // TODO: check this one if this still needed?
   switchToNotesMenuOnSuccessActions$ = createEffect(() =>
     this.action$.pipe(
       ofType(...this.switchToNotesMenuOnSuccessActions),
       map(_ => {
         return sidenavActions.selectNotesMenu();
       })
+    )
+  );
+
+  selectMenu$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(...this.menuActions),
+      switchMap(action =>
+        of(action).pipe(
+          withLatestFrom(this.store.select(getFilteredNotes)),
+          map(([_, note]) => note[0])
+        )
+      ),
+      map(note => notesActions.selectNote({ id: note?.id }))
     )
   );
 
@@ -332,7 +375,6 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(...this.closeSpinnerActions),
-        tap(() => this.store.dispatch(notesActions.closeLoadingSpinner())),
         tap(() => this.spinnerService.hide())
       ),
     { dispatch: false }
@@ -344,7 +386,7 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(...this.successToasterActions),
-        tap(() => this.store.dispatch(notesActions.showToasterSuccess())),
+        // tap(() => this.store.dispatch(notesActions.showToasterSuccess())),
         tap(action => {
           let message: string;
           const { type } = action;
@@ -368,7 +410,7 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(...this.errorToasterActions),
-        tap(() => this.store.dispatch(notesActions.showToasterError())),
+        // tap(() => this.store.dispatch(notesActions.showToasterError())),
         tap(action => {
           let message: string;
           const { type } = action;
@@ -386,50 +428,5 @@ export class NotesEffects {
         })
       ),
     { dispatch: false }
-  );
-
-  selectMenu$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(...this.menuActions),
-      switchMap(action =>
-        of(action).pipe(
-          withLatestFrom(this.store.select(getFilteredNotes)),
-          map(([_, note]) => note[0])
-        )
-      ),
-      map(note => notesActions.selectNoteWithTags({ id: note?.id }))
-    )
-  );
-
-  selectNote$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(notesActions.selectNoteWithTags),
-      // filter(action => !!action.id),
-      switchMap(action =>
-        of(action).pipe(
-          withLatestFrom(
-            this.store.select(getSidenavSelectedMenu),
-            this.store.select(getUserLoggedIn)
-          ),
-          map(([{ id }, selectedMenu, user]) => ({ id, selectedMenu, user }))
-        )
-      ),
-      switchMap(({ id, selectedMenu, user }) => {
-        // if no id specified, no need to do some server requests
-        if (!id) {
-          return of(notesActions.selectNoteWithTagsSuccess({ note: null }));
-        }
-        const note$ =
-          selectedMenu === SidenavMenus.Shared
-            ? this.notesService.getSharedNoteWithTags(user.uid, id)
-            : this.notesService.getNoteWithTags(id);
-        return note$.pipe(
-          map(note => notesActions.selectNoteWithTagsSuccess({ note })),
-          catchError(error =>
-            of(notesActions.selectNoteWithTagsError({ error }))
-          )
-        );
-      })
-    )
   );
 }

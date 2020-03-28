@@ -38,7 +38,8 @@ export class TagsService {
       .pipe(
         map(data => {
           return { id, ...data };
-        })
+        }),
+        take(1)
       );
   }
 }

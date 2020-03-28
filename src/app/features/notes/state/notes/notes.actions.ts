@@ -103,3 +103,16 @@ export const shareNoteError = createAction(
   '[Notes Service] Share Note Error',
   props<{ error: string }>()
 );
+
+export const fetchTags = createAction(
+  '[Notes Service] Fetch Tags',
+  props<{ tagIds: string[] }>()
+);
+export const fetchTagsSuccess = createAction(
+  '[Notes Service] Fetch Tags Success',
+  props<{ tags: Tag[] }>()
+);
+export const fetchTagsError = createAction(
+  '[Notes Service] Fetch Tags Error',
+  props<{ error: string }>()
+);

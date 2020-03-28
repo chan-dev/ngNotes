@@ -8,12 +8,13 @@ import {
   faShareSquare,
 } from '@fortawesome/free-regular-svg-icons';
 
-import { Note } from '../../types/note';
+import { Note, NoteWithFetchedTags } from '../../types/note';
 import { MenuIcons } from '../../types/menu-icons';
 import { SidenavMenus } from '../../state/sidenav/sidenav.state';
 import {
   getFilteredNotes,
   getSelectedNoteId,
+  getFilteredNotesWithTags,
 } from '../../state/notes/notes.selectors';
 import {
   getSidenavSelectedMenu,
@@ -24,6 +25,7 @@ import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actio
 import * as authActions from '@core/state/auth/auth.actions';
 import { User } from '@app/features/auth/types/user';
 import { getUserLoggedIn } from '@core/state/auth/auth.selectors';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav-container',
@@ -51,7 +53,7 @@ export class SidenavContainerComponent {
     // },
   ];
 
-  notes$: Observable<Note[]>;
+  notes$: Observable<NoteWithFetchedTags[]>;
   selectedNoteId$: Observable<string | null>;
   selectedMenu$: Observable<SidenavMenus>;
   expandIcons$: Observable<boolean>;
@@ -63,7 +65,7 @@ export class SidenavContainerComponent {
   };
 
   constructor(private store: Store<any>) {
-    this.notes$ = this.store.select(getFilteredNotes);
+    this.notes$ = this.store.select(getFilteredNotesWithTags);
     this.selectedNoteId$ = this.store.select(getSelectedNoteId);
     this.selectedMenu$ = this.store.select(getSidenavSelectedMenu);
     this.expandIcons$ = this.store.select(getSidenavExpandIcons);
@@ -71,7 +73,7 @@ export class SidenavContainerComponent {
   }
 
   setSelectedNote(id: string) {
-    this.store.dispatch(noteActions.selectNoteWithTags({ id }));
+    this.store.dispatch(noteActions.selectNote({ id }));
   }
 
   setSelectedMenu(menu: string) {
