@@ -12,6 +12,7 @@ import {
   take,
   toArray,
   distinct,
+  filter,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +24,12 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CreateNoteFormComponent } from '../../containers/create-note-form/create-note-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TagsService } from '../../services/tags.service';
-import { getTags, getFilteredNotes, getSharedTags } from './notes.selectors';
+import {
+  getTags,
+  getFilteredNotes,
+  getSharedTags,
+  getSharedNotes,
+} from './notes.selectors';
 import { DeleteNoteConfirmComponent } from '../../containers/delete-note-confirm/delete-note-confirm.component';
 import { UpdateNoteFormComponent } from '../../containers/update-note-form/update-note-form.component';
 import { getUserLoggedIn } from '@core/state/auth/auth.selectors';
@@ -200,18 +206,34 @@ export class NotesEffects {
     this.action$.pipe(
       ofType(notesActions.syncSharedNote),
       switchMap(action =>
-        of(action).pipe(withLatestFrom(this.store.select(getSharedTags)))
+        of(action).pipe(
+          withLatestFrom(
+            this.store.select(getSharedTags),
+            this.store.select(getSharedNotes)
+          )
+        )
       ),
-      switchMap(([{ updatedNotes }, tags]) => {
+      switchMap(([{ updatedNotes }, sharedTags, sharedNotes]) => {
         return of(updatedNotes).pipe(
+          filter(notes => {
+            // make sure we're only dealing with notes that are
+            // already in the Store's sharedTags state
+            const isFound = notes.find(note =>
+              sharedNotes.find(sharedNote => {
+                return sharedNote.id === note.id;
+              })
+            );
+
+            return Boolean(isFound);
+          }),
           this.fetchSharedNoteTags(updatedNotes),
-          map(sharedTags => {
-            const sharedTagIds = sharedTags.map(tag => tag.id);
-            const currentTagsIds = tags.map(tag => tag.id);
+          map(fetchedTags => {
+            const sharedTagIds = fetchedTags.map(tag => tag.id);
+            const currentTagsIds = sharedTags.map(tag => tag.id);
             const newSharedTags: Tag[] = difference(
               sharedTagIds,
               currentTagsIds
-            ).map(id => sharedTags.find(tag => tag.id === id));
+            ).map(id => fetchedTags.find(tag => tag.id === id));
 
             return notesActions.fetchSharedTagsSuccess({
               sharedTags: newSharedTags,
