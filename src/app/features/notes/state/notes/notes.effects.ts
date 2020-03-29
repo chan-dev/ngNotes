@@ -155,37 +155,17 @@ export class NotesEffects {
     )
   );
 
-  // when creating a note, a side effect is it creates tags in firebase
-  // behind the scenes, so we need to intercept it
-  // to update the state on our store
-  fetchCreatedTagsOnCreate$ = createEffect(() =>
+  fetchCreatedTagsOnCreateOrUpdate$ = createEffect(() =>
     this.action$.pipe(
-      ofType(notesActions.createNoteSuccess),
-      switchMap(({ note }) => {
-        const tagIds = Object.keys(note.tags);
-        return from(tagIds)
-          .pipe(
-            mergeMap(tagId => this.tagsService.getTag(tagId)),
-            take(tagIds.length),
-            toArray()
-          )
-          .pipe(
-            map(tags => notesActions.fetchTagsSuccess({ tags })),
-            catchError(error => of(notesActions.fetchTagsError({ error })))
-          );
-      })
-    )
-  );
-
-  fetchCreatedTagsOnUpdate$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(notesActions.updateNoteSuccess),
+      ofType(notesActions.createNoteSuccess, notesActions.updateNoteSuccess),
       switchMap(action =>
         of(action).pipe(withLatestFrom(this.store.select(getTags)))
       ),
       switchMap(([{ note }, tags]) => {
         const noteTagsIds = Object.keys(note.tags);
         const currentTagsIds = tags.map(tag => tag.id);
+
+        // We're only concerned with new tags not yet existing in firebase
         const newTagsIds: string[] = difference(noteTagsIds, currentTagsIds);
 
         return from(newTagsIds)
@@ -505,7 +485,7 @@ export class NotesEffects {
           withLatestFrom(this.store.select(getUserLoggedIn)),
           map(([notes, user]) =>
             notesActions.syncSharedNote({
-              // filter any shared notes owned by the current user
+              // ignore any notes owned by the current user
               updatedNotes:
                 (user && notes.filter(note => note.authorId !== user.uid)) ||
                 [],
