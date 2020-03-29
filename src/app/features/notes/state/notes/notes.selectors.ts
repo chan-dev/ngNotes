@@ -38,7 +38,6 @@ export const getSharedNotes = createSelector(
   getNotesState,
   // sort in descending order
   (state: fromNotes.NotesState) => {
-    console.log({ sharedNotes: state.sharedItems });
     return state.sharedItems.sort(
       (a, b) => Number(b.created_at) - Number(a.created_at)
     );
@@ -138,7 +137,6 @@ export const getSelectedNoteWithTags = createSelector(
   }
 );
 
-// TODO: check if this is still needed
 export const getSelectedNote = createSelector(
   getFilteredNotes,
   getSharedNotes,

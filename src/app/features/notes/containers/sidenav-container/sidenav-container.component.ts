@@ -2,17 +2,14 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
-  faStar,
   faStickyNote,
-  faTrashAlt,
   faShareSquare,
 } from '@fortawesome/free-regular-svg-icons';
 
-import { Note, NoteWithFetchedTags } from '../../types/note';
+import { NoteWithFetchedTags } from '../../types/note';
 import { MenuIcons } from '../../types/menu-icons';
 import { SidenavMenus } from '../../state/sidenav/sidenav.state';
 import {
-  getFilteredNotes,
   getSelectedNoteId,
   getFilteredNotesWithTags,
 } from '../../state/notes/notes.selectors';
@@ -25,7 +22,6 @@ import * as sidenavActions from '@app/features/notes/state/sidenav/sidenav.actio
 import * as authActions from '@core/state/auth/auth.actions';
 import { User } from '@app/features/auth/types/user';
 import { getUserLoggedIn } from '@core/state/auth/auth.selectors';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav-container',
@@ -59,7 +55,6 @@ export class SidenavContainerComponent {
   expandIcons$: Observable<boolean>;
   user$: Observable<User>;
 
-  // TODO: adjust
   scrollbarOptions = {
     scrollbarMaxSize: 250,
   };

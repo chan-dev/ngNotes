@@ -59,7 +59,7 @@ export const openUpdateNoteFormModal = createAction(
   '[CurrentNoteContainer component] Open Update Note Form',
   props<{ note: NoteWithFetchedTags }>()
 );
-// TODO: rename event source
+
 export const openDeleteConfirmModal = createAction(
   '[CurrentNoteContainer component] Open Delete Confirm',
   props<{ note: NoteWithFetchedTags }>()
@@ -72,7 +72,6 @@ export const openShareNoteFormModal = createAction(
 export const openLoadingSpinner = createAction('[App] Open Loading Spinner');
 export const closeLoadingSpinner = createAction('[App] Close Loading Spinner');
 
-// TODO: should we remove this
 export const selectNote = createAction(
   '[SidenavContainerComponent] Select Note',
   props<{ id: string | null }>()
@@ -101,7 +100,6 @@ export const shareNote = createAction(
 );
 export const shareNoteSuccess = createAction(
   '[Notes Service] Share Note Success',
-  // TODO: add type
   props<{ sharedNote: Note }>()
 );
 export const shareNoteError = createAction(

@@ -68,7 +68,6 @@ export class CreateNoteFormComponent {
   saveNote() {
     const { title, content, tags, schedule } = this.noteForm.value;
     if (this.noteForm.valid) {
-      console.log({ schedule });
       this.store.dispatch(
         noteActions.createNote({
           note: {

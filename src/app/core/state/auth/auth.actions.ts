@@ -10,5 +10,7 @@ export const loginError = createAction(
   '[AuthService] Login Error',
   props<{ error: string }>()
 );
-// TODO: replace later with correct event source
-export const logout = createAction('[Test Component] Logout');
+
+export const logout = createAction(
+  '[SidenavContainerComponent Component] Logout'
+);

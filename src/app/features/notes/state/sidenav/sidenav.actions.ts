@@ -10,7 +10,6 @@ export const setSidenav = createAction(
   props<{ isMobile: boolean }>()
 );
 
-// TODO: replace with correct event source
 export const selectNotesMenu = createAction(
   '[SidenavContainerComponent] Select Notes Menu'
 );

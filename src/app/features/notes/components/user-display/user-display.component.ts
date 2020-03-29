@@ -12,9 +12,7 @@ export class UserDisplayComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
-    console.log({ user: this.user });
-  }
+  ngOnInit() {}
 
   logoutUser() {
     this.logout.emit();

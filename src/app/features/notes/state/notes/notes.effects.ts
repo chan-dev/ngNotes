@@ -230,7 +230,6 @@ export class NotesEffects {
     )
   );
 
-  // TODO: check this one if this still needed?
   switchToNotesMenuOnSuccessActions$ = createEffect(() =>
     this.action$.pipe(
       ofType(...this.switchToNotesMenuOnSuccessActions),
@@ -391,7 +390,6 @@ export class NotesEffects {
     () =>
       this.action$.pipe(
         ofType(notesActions.openShareNoteFormModal),
-        tap(() => console.log('opening shared modal')),
         switchMap(action =>
           combineLatest([of(action), this.usersService.getUsers()]).pipe(
             tap(([{ note }, users]) =>
@@ -430,8 +428,6 @@ export class NotesEffects {
     { dispatch: false }
   );
 
-  // TODO: move to AppEffect
-  // TODO: find a better approach
   showToasterSuccess$ = createEffect(
     () =>
       this.action$.pipe(
@@ -480,7 +476,6 @@ export class NotesEffects {
     { dispatch: false }
   );
 
-  // TODO: fix syching, filter notes from the logged in user
   syncSharedNote$ = createEffect(() =>
     this.notesService.getNotesStateChanges().pipe(
       switchMap(modifiedNotes =>
@@ -489,7 +484,9 @@ export class NotesEffects {
           map(([notes, user]) =>
             notesActions.syncSharedNote({
               // filter any shared notes owned by the current user
-              updatedNotes: notes.filter(note => note.authorId !== user.uid),
+              updatedNotes:
+                (user && notes.filter(note => note.authorId !== user.uid)) ||
+                [],
             })
           )
         )
